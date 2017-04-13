@@ -1,0 +1,6 @@
+*** Settings ***
+Documentation     暂时还没有用，要放到公共部分去
+
+*** Variables ***
+${OKBtnXpath}     //a[text()='确定']    # 确定按钮
+${fuyrzID}        fuyrz    # 立即认证富友账户

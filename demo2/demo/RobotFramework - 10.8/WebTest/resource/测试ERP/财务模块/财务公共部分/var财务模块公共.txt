@@ -1,0 +1,48 @@
+*** Settings ***
+Resource          ../../登录模块/ERP登录模块关键字封装.txt
+Resource          ../../ERP公共部分/操作提示页面/var操作提示页面.txt
+Resource          ../../ERP公共部分/varERP公共部分.txt
+Resource          ../放款匹配/放款匹配公共部分/var放款匹配公共部分.txt
+Resource          ../放款匹配/待匹配客户页面/var待匹配客户页面.txt
+
+*** Variables ***
+# 左边栏
+${XinDaiHuanKuanBtnXpath}    //span[text()='信贷还款']
+${FangKuanPiPeiBtnXpath}    //span[text()='放款匹配']
+${LiCaiHuanKuanBtnXpath}    //span[text()='理财还款']
+${JieSuanHuChaXunBtnXpath}    //span[text()='结算户查询']
+
+*** Keywords ***
+登录到财务页面
+    [Documentation]    登录到评审页面,并验证是否有总部审核元素存在
+    登录ERP
+    sleep    ${NormalSleep}
+    Wait Until Element Is Enabled    ${pingshenXpath}    ${TimeOut}    #enable指能够使用,visable指能看到
+    点击财务
+
+点击放款匹配
+    click element    ${FangKuanPiPeiBtnXpath}
+    # 点击总部审核
+    #    [Documentation]    点击总部审核
+    #    Click Element    ${ZongbuShenHeBtnXpath}
+    #
+    # 点击门店面审
+    #    Click Element    ${MenDianMianShenBtnXpath}
+    #
+    # 点击签约开户
+    #    Click Element    ${QianYueKaihuBtnXpath}
+    #
+    # 点击电话审核
+    #    Click Element    ${DianHuaShenHeBtnXpath}
+    #
+    # 点击合规审核
+    #    Click Element    ${HeGuiShenheBtnXpath}
+    #
+    # 评审模块查询姓名
+    #    [Arguments]    ${CustName}
+    #    [Documentation]    在评审模块,输入姓名,点击查找,验证是否搜到
+    #    input text    ${PingShenMokuaiCustNameXpath}    ${CustName}
+    #    sleep    ${ShortSleep}
+    #    click element    ${ZongbuShenHeSearID}
+    #    sleep    ${ShortSleep2}
+    #    Table Should Contain    ${exampleID}    ${CustName}

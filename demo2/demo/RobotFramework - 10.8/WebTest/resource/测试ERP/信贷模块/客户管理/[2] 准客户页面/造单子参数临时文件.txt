@@ -1,0 +1,101 @@
+*** Settings ***
+
+*** Variables ***
+#表格信息
+
+${excel_path}     客户信息表格.xls
+${sheetName}    Sheet1      #表名
+${NameCol}        2         #姓名第几列
+${PhoneCol}       3         #手机号第几列
+${ICCol}          4         #身份证第几列
+${BankCol}        5         #银行卡号
+#准客户造单子用户信息
+${TempCustName}    自动化造单子九
+${TempphoneNum}    18912340010
+${TempIDCard}     533422198903040462
+#选择产品参数
+${ProvcdValue}    工薪系列    #产品系列
+${ProductNameValue}    工薪精英贷4.2    #产品名称
+${ProDetailValue}    24    #产品期数
+# 零用系列
+# 极速30
+# 30
+# ${ProvcdValue}    零用系列    #产品系列
+# ${ProductNameValue}    极速30    #产品名称
+# ${ProDetailValue}    30    #产品期数
+#客户详细信息页面参数
+#填写借款申请信息
+${crm_apply_duetime}    12期    #希望期数
+${crm_apply_momey}    1111    #申请金额
+${crm_apply_payment}    等额本息    #希望的还款方式
+${crm_apply_repaymentMomey}    1111    #月供能力
+${highestMoney}    100    #可接受每周最高还款额
+${crm_apply_purpose}    购物    #借款用途
+#填写产品信息
+#暂时为空
+#填写您的个人资料
+${crm_apply_marital}    未婚    #婚姻状况
+${order_apply_highestDegree}    本科    #教育程度
+${crm_apply_custEmail}    xyh100@xyh.com    #电子邮箱
+${order_apply_issuer}    发证机关    #发证机关
+${hometownProvince}    北京    #身份证省
+${hometownCity}    北京市    #身份证市
+${hometownArea}    东城区    #身份证区、县
+${hometownAddress}    身份证具体地址    #身份证具体地址
+${order_apply_liveTime}    3    #本地生活时长
+${order_apply_nowliveTime}    2    #现居地生活时长
+${order_apply_assetsType}    租房    #本市房产状况
+${order_apply_assetsNature}    商品房    #房产性质
+#填写车产资料
+${order_apply_gvehicleProperty}    无    #本人名下车产
+#填写职业资料
+${company}        单位名称    #单位名称
+${compayDept}     单位部门    #部门
+${compayPosition}    单位职务    #职务
+${companyNature}    机关单位    #单位性质！
+${companyScale}    1-5人    #单位规模
+${positionLevel}    负责人    #职级
+${compayProvId}    北京    #单位省
+${compayCityId}    北京市    #单位市
+${compayAreaId}    东城区    #单位区
+${address}        单位具体地址    #单位具体地址
+${compayTelArea}    021    #区号
+${compayTelNo}    666666    #电话
+${compayTelExt}    1234    #分机
+${entryTime}      2017-01-10    #何时进入公司
+#填写经营性材料
+${identity}       法人代表    #身份
+${businessYear}    12    #年，企业经营年限（以实际日期为准）：
+${businessMon}    11    #月，企业经营年限（以实际日期为准）：
+${businessOwnership}    自有    #请选择经营地归属！
+${staffPeople}    3    #请填写员工人数！，没有ID
+${registeredCapital}    2    #注册资本：，没有ID
+${comAnnualIncome}    2    #过去一年营业收入，没有ID
+${yearProfit}     2    #过去一年利润，没有ID
+#填写收支状况
+${annualIncome}    1    #年收入
+${monthlyIncome}    2000    #每月工作收入
+${expenses}       2000    #月均支出
+${supply}         2    #供养人数
+#填写联系人资料
+${mateName}       亲属一    #直系亲属联系人1姓名
+${mateIsKnow}     是    #是否知晓此项借款
+${phone}          18200010001    #手机号
+${nameO}          亲属二    #直系亲属联系人2姓名
+${linkman_relation1}    父母    #关系
+${linkman_isknow}    是    #是否知晓此项借款
+${phoneO}         18200010002    #手机号
+${linkman3_name_text}    亲属三    #直系亲属联系人3姓名
+${linkman_relation_select}    父母    #关系
+${linkman_isknow_select}    是    #是否知晓此项借款
+${linkman_mobile_text}    18200010003    #手机号
+#其他联系人1
+${nameT}          其他一    #其他联系人1
+${u1024_input}    朋友    #关系
+${linkman_isknow_select1}    是    #是否知晓此项借款
+${phoneT0}        18200010004    #手机号
+${nameT1}         其他二    #其他联系人2
+${u1024_input1}    同事    #关系
+${linkman_isknow2}    是    #是否知晓此项借款
+${phoneT}         18200010005    #手机号
+#填写客户来源

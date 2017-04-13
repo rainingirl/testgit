@@ -1,0 +1,27 @@
+*** Settings ***
+Resource          var待匹配客户页面.txt
+Resource          ../放款匹配公共部分/var放款匹配公共部分.txt
+Resource          选择融资方式和线上渠道页面/var选择融资方式和线上渠道页面.txt
+Resource          选择融资方式和线上渠道页面/选择中资联财务产品页面/var选择中资联财务产品页面.txt
+
+*** Variables ***
+# 筛选框
+${DaiPiPeisearchBthXpath}    //span[@onclick='initMatchOrder()']    #待匹配客户页面_搜索按钮
+${ZijinPiPeiXpath}    //td/a[text()='资金匹配']
+
+*** Keywords ***
+查找用户_待匹配客户
+    [Arguments]    ${CustName}
+    [Documentation]    在评审模块,输入姓名,点击查找,验证是否搜到
+    # 查找用户#待匹配客户页面
+    # 选中用户#待匹配客户页面-也可以放在放款匹配公共部分
+    # 点击资金匹配#待匹配客户页面
+    input text    ${FangKuanPiPei_custNameXpath}    ${CustName}    #import ../公共
+    sleep    ${ShortSleep}
+    click element    ${DaiPiPeisearchBthXpath}
+    sleep    ${ShortSleep2}
+    Table Should Contain    ${matchCustomerTableID}    ${CustName}
+
+开始资金匹配
+    [Documentation]    选择选中的客户之后,点击屏幕下方的资金匹配按钮
+    click element    ${ZijinPiPeiXpath}

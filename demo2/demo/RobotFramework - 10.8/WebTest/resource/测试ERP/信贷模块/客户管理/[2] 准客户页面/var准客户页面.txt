@@ -1,0 +1,168 @@
+*** Settings ***
+Resource          造单子参数临时文件.txt
+Resource          ../[1] 意向客户页面/意向客户列表页面/跟进页面/var跟进页面.txt
+Resource          ../[1] 意向客户页面/意向客户列表页面/意向客户列表页面/var意向客户列表页面.txt
+Resource          ../[1] 意向客户页面/意向客户列表页面/添加意向客户页面/var添加意向客户页面.txt
+Resource          客户详细信息页面/var客户详细信息页面.txt
+Resource          选择产品页面/var选择产品页面.txt
+Resource          ../../../../../testcase/测试ERP/信贷模块/客户管理/客户管理测试数据/data客户管理测试数据.txt
+Resource          上传素材页面/var上传素材页面.txt
+Resource          ../../../ERP公共部分/上传文件页面/var上传文件.txt
+
+*** Variables ***
+#页面元素定位
+${PotentialPageTitleXpath}    //span[contains(text(),'准客户')]    #准客户页面title
+${SelectProductXpath}    //a[text()='选择产品']    #选择产品
+${NewProductXpath}    //a[text()='新增产品']    #新增产品
+${SelectZhunkehuXpath}    //*[@id="tb_crmOrderList"]//td[text()='1']    #序号为1的准客户
+${Submit_approval_Xpath}    //a[text()='提交审批']
+${ZhunKehu_CustNameID}    cust_name    #准客户输入框
+${selfCustID}     selfCust    #只查看自己的客户
+${tb_crmOrderListID}    tb_crmOrderList    #準客戶列表表格
+${searchBtn_Prospect}    //table[@id="crmOrder"]//span[contains(text(),'搜索')]    #准客户搜索按钮
+# //table[@id="crmOrder"]//s[contains(text(),'搜索')]
+
+*** Keywords ***
+登录到准客户页面
+    登录到信贷页面
+    sleep    ${ShortSleep}
+    click element    ${PotentialXpath}
+    Wait Until Page Contains Element    xpath=${PotentialPageTitleXpath}    timeout=${TimeOut}    #验证是否进入意向客户页面
+
+初始化
+    [Documentation]    链接数据库
+    ...    登录到意向客户页面
+    连接ERP数据库
+    登录到意向客户页面
+
+查找准客户
+    [Arguments]    ${CustName}
+    [Documentation]    查找准客户，步骤:1.输入意向客户姓名 2.点击搜索 3.查看验证是否搜索成功到准客户
+    # Input Text    ${cust_nameID}    ${CustName}    #输入要查找的姓名    #去掉ID测试
+    sleep    ${ShortSleep2}
+    # click element    ${btnColSearID}    #点击搜索按钮
+    # sleep    ${ShortSleep}
+    # 表格是否包含    ${tb_crmOrderListID}    ${CustName}    #验证是否搜索到预期结果
+    Input Text    ${ZhunKehu_CustNameID}    ${CustName}    #输入要查找的姓名    #去掉ID测试
+    sleep    ${ShortSleep2}
+    click element    ${searchBtn_Prospect}    #点击搜索按钮
+    sleep    ${ShortSleep2}
+    表格是否包含    ${tb_crmOrderListID}    ${CustName}    #验证是否搜索到预期结果
+
+点击选择产品
+    [Documentation]    这里指意向客户列表的第一个客户
+    Click Subelement At Table Cell    ${tb_crmOrderListID}    ${FirstCustRow_Potential}    ${FirstCustCol_Potential}    ${SelectProductXpath}
+
+点击新增产品
+    [Documentation]    这里指意向客户列表的第一个客户
+    Click Subelement At Table Cell    ${tb_crmOrderListID}    ${FirstCustRow_Potential}    ${FirstCustCol_Potential}    ${NewProductXpath}
+
+选中准客户
+    [Documentation]    这里默认点击第一个准客户的序号单元格。由于查找准客户完成后，查找内容只会有一个唯一的准客户
+    Click Subelement At Table Cell    ${tb_crmOrderListID}    ${FirstCustRow_Potential}    ${FirstCustRow_Sequence_Potential}    ${SelectZhunkehuXpath}
+
+选中指定准客户
+    [Arguments]    ${CustName}
+    [Documentation]    搜索表中的客户姓名,并点击选中
+    click element    //td[text()='${CustName}']
+
+新建无素材准客户
+    [Arguments]    ${CustName}    ${phoneNum}    ${IDCard}
+    [Documentation]    造单子，不上传素材文件 参数说明： 用户名，手机号，身份证号 前提条件：打开浏览器到意向客户页面，连接数据库 结束页面：在准客户页面
+    删除ERP数据库指定字段    ${CustName}
+    添加意向客户    ${AddSalesManName}    ${CustName}    ${phoneNum}    ${IDCard}
+    查找意向客户_姓名    ${CustName}
+    sleep    ${ShortSleep2}
+    点击开始进行
+    sleep    ${ShortSleep2}
+    点击确定
+    sleep    ${ShortSleep2}
+    查找准客户    ${CustName}    #查询该客户，这里只有一个结果
+    # if 选择产品
+    点击选择产品
+    #点击新增产品
+    选择产品    ${ProvcdValue}    ${ProductNameValue}    ${ProDetailValue}
+    填写客户详细信息
+    var客户详细信息页面.点击保存
+    sleep    ${ShortSleep2}
+    点击确定
+    sleep    ${ShortSleep2}
+    点击意向客户
+    sleep    ${ShortSleep2}
+
+新建准客户
+    [Arguments]    ${CustName}    ${phoneNum}    ${IDCard}
+    [Documentation]    造单子，包括上传一张身份证图片
+    ...    参数说明： 用户名，手机号，身份证号
+    ...    前提条件：打开浏览器到意向客户页面，连接数据库
+    ...    结束页面：在准客户页面
+    删除ERP数据库指定字段    ${CustName}
+    添加意向客户    ${AddSalesManName}    ${CustName}    ${phoneNum}    ${IDCard}
+    查找意向客户_姓名    ${CustName}
+    sleep    ${ShortSleep2}
+    点击开始进行
+    sleep    ${ShortSleep2}
+    点击确定
+    sleep    ${ShortSleep2}
+    查找准客户    ${CustName}    #查询该客户，这里只有一个结果
+    # if 选择产品
+    点击选择产品
+    #点击新增产品
+    选择产品    ${ProvcdValue}    ${ProductNameValue}    ${ProDetailValue}
+    填写客户详细信息
+    点击上传素材
+    点击上传身份证    #进入上传素材页面
+    上传身份证文件
+    sleep    ${ShortSleep2}
+    点击借款申请信息按钮
+    sleep    ${ShortSleep2}
+    var客户详细信息页面.点击保存
+    sleep    ${ShortSleep2}
+    点击确定
+    sleep    ${ShortSleep2}
+    点击意向客户
+    sleep    ${ShortSleep2}
+
+表格批量造单子
+    [Arguments]    ${excel_path}    ${sheetName}    ${NameCol}    ${PhoneCol}    ${ICCol}    # 表格路径|sheet名|姓名第几列|手机号第几列|身份证号第几列
+    [Documentation]    表格路径默认为当前路径
+    ...    按照表格批量造单子，只需要修改表格内容，即可。
+    ...    如果修改了表格结构，请修改相关参数。
+    ...    注意序列以0开始。
+    log    ${CURDIR}    #打印当前路径
+    ${excel_path1}=    Join Path    ${CURDIR}    ${excel_path}    #获取表格全路径（当前路径+表格名）
+    open excel    ${excel_path1}    #打开表格
+    ${iTotalRows}    Get Row Count    ${sheetName}    #获取表格行数
+    : FOR    ${iRowNo}    IN RANGE    ${iTotalRows}    #for循环开始
+    \    ${Name}    Read Cell Data By Coordinates    ${sheetName}    ${NameCol}    ${iRowNo}    #读用户名
+    \    ${Phone}    Read Cell Data By Coordinates    ${sheetName}    ${PhoneCol}    ${iRowNo}    #获取手机号
+    \    ${ic}    Read Cell Data By Coordinates    ${sheetName}    ${ICCol}    ${iRowNo}    #获取身份证
+    \    ${bankNum}    Read Cell Data By Coordinates    ${sheetName}    ${BankCol}    ${iRowNo}    #获取银行卡号
+    \    ${bflag1}    Run Keyword And Return Status    验证身份证是否不存在    ${ic}
+    \    ${bflag2}    Run Keyword And Return Status    验证手机号是否不存在    ${Phone}
+    \    ${bflag3}    Run Keyword And Return Status    验证银行卡号是否不存在    ${bankNum}
+    \    run keyword if    ${bflag1} and ${bflag2} \ and ${bflag3}    新建单子    ${Name}    ${Phone}    ${ic}
+    \    ...    ${bankNum}
+    \    ...    ELSE    log    手机号或者身份已存在，跳过该次循环
+
+点击提交审批
+    [Documentation]    点击提交审批 。前提操作查找到准客户，然后选中准客户。
+    click element    ${Submit_approval_Xpath}
+
+提交审批
+    [Arguments]    ${username}
+    [Documentation]    在准客户页面，选中指定的用户提交审批。这里的参数是，具有唯一性的用户名。
+    ...    起始页面:准客户页面
+    ...    结束页面:准客户页面
+    查找准客户    ${username}
+    sleep    ${ShortSleep2}
+    选中指定准客户    ${username}
+    sleep    ${ShortSleep2}
+    点击提交审批
+    sleep    ${ShortSleep2}
+    点击确定    #确定提交审批？    自造壹佰叁拾陆
+    sleep    ${ShortSleep2}
+    点击确定    #操作成功
+    #验证是否提交审批成功
+    #TBD
+    sleep    ${ShortSleep}

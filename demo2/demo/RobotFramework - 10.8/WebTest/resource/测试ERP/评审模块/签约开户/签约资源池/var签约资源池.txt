@@ -1,0 +1,16 @@
+*** Settings ***
+Resource          ../../评审公共部分/var评审模块公共.txt
+
+*** Variables ***
+# ${KaiLiZhangHuXpath}    //a[text()='开立账户']
+# ${QianYueZiYuanChiXpath}    //a[text()='签约资源池']    #开始进件
+# ${DelXpath}       //a[text()='待处理客户']    #删除
+# ${QianYueKaiHu_DaiChuLikehuXpath}    //*[@id="leftTemplateHtml"]//a[contains(@refpage,'reviewStatus=9') and text()='待处理客户']    #定位到签约开户-待处理客户
+
+*** Keywords ***
+领取指定签约
+    [Arguments]    ${CustName}
+    [Documentation]    筛选出客户,选择指定的客户,并且点击签约,代码和进入签约一样,需要优化
+    ${index1}    Get Index In Table Column    example    7    ${CustName}   #定位行,用姓名
+    log    ${index1}
+    Click Element At Table Cell    example    ${index1}    10   #点击开户

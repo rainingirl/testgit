@@ -1,0 +1,18 @@
+[0306/155932.813:ERROR:process_reader_win.cc(114)] NtOpenThread: {无法访问} 过程已请求访问一对象，但未给访问权限。  (0xc0000022)
+[0306/155932.814:ERROR:exception_snapshot_win.cc(87)] thread ID 5568 not found in process
+[0306/155932.814:WARNING:crash_report_exception_handler.cc(60)] ProcessSnapshotWin::Initialize failed
+[0317/103541.361:ERROR:process_reader_win.cc(114)] NtOpenThread: {无法访问} 过程已请求访问一对象，但未给访问权限。  (0xc0000022)
+[0317/103541.361:ERROR:exception_snapshot_win.cc(87)] thread ID 11412 not found in process
+[0317/103541.361:WARNING:crash_report_exception_handler.cc(60)] ProcessSnapshotWin::Initialize failed
+[0327/145009.576:ERROR:process_reader_win.cc(114)] NtOpenThread: {无法访问} 过程已请求访问一对象，但未给访问权限。  (0xc0000022)
+[0327/145009.577:ERROR:exception_snapshot_win.cc(87)] thread ID 16072 not found in process
+[0327/145009.577:WARNING:crash_report_exception_handler.cc(60)] ProcessSnapshotWin::Initialize failed
+[0327/145009.613:ERROR:process_reader_win.cc(114)] NtOpenThread: {无法访问} 过程已请求访问一对象，但未给访问权限。  (0xc0000022)
+[0327/145009.613:ERROR:exception_snapshot_win.cc(87)] thread ID 11116 not found in process
+[0327/145009.613:WARNING:crash_report_exception_handler.cc(60)] ProcessSnapshotWin::Initialize failed
+[0327/154703.295:ERROR:process_reader_win.cc(114)] NtOpenThread: {无法访问} 过程已请求访问一对象，但未给访问权限。  (0xc0000022)
+[0327/154703.296:ERROR:exception_snapshot_win.cc(87)] thread ID 6608 not found in process
+[0327/154703.296:WARNING:crash_report_exception_handler.cc(60)] ProcessSnapshotWin::Initialize failed
+[0327/160717.626:ERROR:process_reader_win.cc(114)] NtOpenThread: {无法访问} 过程已请求访问一对象，但未给访问权限。  (0xc0000022)
+[0327/160717.627:ERROR:exception_snapshot_win.cc(87)] thread ID 13700 not found in process
+[0327/160717.627:WARNING:crash_report_exception_handler.cc(60)] ProcessSnapshotWin::Initialize failed

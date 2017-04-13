@@ -1,0 +1,33 @@
+*** Settings ***
+Documentation     只存在各个模块测试的公共部分，不存单独一个模块的关键字
+Resource          var.txt
+Library           DatabaseLibrary    #数据库操作
+Library           ExcelLibrary    #表格操作
+Library           RequestsLibrary
+Library           Collections
+
+*** Keywords ***
+等待1秒
+    sleep    ${ShortSleep}
+
+等待2秒
+    sleep    ${ShortSleep2}
+
+表格是否包含
+    [Arguments]    ${tableID}    ${expected}
+    [Documentation]    查看表格是否包含
+    Table Should Contain    ${tableID}    ${expected}
+
+页面是否包含元素
+    [Arguments]    ${locator}
+    [Documentation]    查看当前页面是否包含元素${locator}
+    page should contain element    ${locator}
+
+输入文本
+    [Arguments]    ${locator}    ${text}
+    [Documentation]    在${locator}输入文本 ${text}，input text ${locator} ${text}
+    input text    ${locator}    ${text}
+
+等待页面包含元素
+    [Arguments]    ${locator}    ${timeout}=None    ${error}=None
+    Wait Until Page Contains Element    ${locator}    ${timeout}    ${error}

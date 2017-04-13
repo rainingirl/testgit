@@ -1,0 +1,13 @@
+*** Settings ***
+Resource          ../../../../信贷模块公共部分/var信贷模块公共.txt
+Resource          ../../../../../ERP公共部分/操作提示页面/var操作提示页面.txt
+
+*** Variables ***
+# ${FollowUpXpath}    //a[text()='跟进']    #跟进
+# ${StartXpath}     //a[text()='开始进件']    #开始进件
+# ${DelXpath}       //a[text()='删除']    #删除
+*** Keywords ***
+总部审核验证是否已处理
+    [Arguments]    ${CustName}
+    [Documentation]    [备注:第一次审核]总部审核,查找指定用户是否已处理
+    #TBD

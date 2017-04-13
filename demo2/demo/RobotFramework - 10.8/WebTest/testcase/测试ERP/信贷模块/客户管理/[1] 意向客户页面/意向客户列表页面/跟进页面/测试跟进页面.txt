@@ -1,0 +1,31 @@
+*** Settings ***
+Resource          ../../../../../../../resource/测试ERP/信贷模块/客户管理/[1] 意向客户页面/意向客户列表页面/跟进页面/var跟进页面.txt
+Resource          ../../../客户管理测试数据/data客户管理测试数据.txt
+
+*** Test Cases ***
+[tc14]: 确保点击“新增跟进”按钮可以添加新的跟进记录。
+    [Documentation]    注释：只添加一条跟进记录 1.确认客户存在 2.删除该客户的跟进记录 3.新建跟进记录 4.验证是否添加成功（测试跟进记录 ，321088198601114535， 居博一，18900000002）
+    [Tags]    1    Done
+    [Setup]    run keywords    登录到意向客户页面    连接ERP数据库
+    确认该意向客户存在    ${AddSalesManName}    ${FollowUpCustName}    ${FollowUpphoneNum}    ${FollowUpIDCard}    #确保跟进测试的客户存在
+    删除指定的跟进记录    ${FollowUpCustName}    #删除跟进记录
+    查找意向客户_姓名    ${FollowUpCustName}    #查找到该客户
+    点击跟进    #进入跟进页面
+    等待1秒
+    新建一条跟进记录    ${FollowUpTime}    ${FollowFormValue}    ${FollowUpContent}    #还在跟进页面
+    表格是否包含    ${tb_followupID}    ${FollowFormValue}    #验证是否添加成功
+    [Teardown]    run keywords    Close Browser    断开数据库    # 关闭浏览器,关闭数据库
+
+[tc13]: 确保所有的跟进记录展示在列表中。
+    [Documentation]    确认有客户
+    ...    确认有跟进记录（暂时只有一条记录）
+    ...    进入跟进页面
+    ...    查看跟进列表
+    [Tags]    3    Done
+    [Setup]    run keywords    登录到意向客户页面    连接ERP数据库
+    确认该意向客户存在    ${AddSalesManName}    ${FollowUpCustName}    ${FollowUpphoneNum}    ${FollowUpIDCard}    #确保跟进测试的客户存在
+    确认有跟进记录    ${FollowUpCustName}    #返回意向客户页面
+    查找意向客户_姓名    ${FollowUpCustName}    #找到意向客户
+    点击跟进
+    表格是否包含    ${tb_followupID}    ${FollowFormValue}    #验证是否有跟进记录
+    [Teardown]    run keywords    Close Browser    断开数据库    # 关闭浏览器,关闭数据库

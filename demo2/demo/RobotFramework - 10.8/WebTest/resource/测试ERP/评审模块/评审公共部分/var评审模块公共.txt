@@ -1,0 +1,211 @@
+*** Settings ***
+Resource          ../门店面审/门店面审公共部分/var门店面审公共部分.txt
+Resource          ../总部审核/总部审核公共部分/var总部审核公共部分.txt
+Resource          ../../信贷模块/客户管理/[2] 准客户页面/var准客户页面.txt
+Resource          ../../财务模块/财务公共部分/var财务模块公共.txt
+Resource          ../签约开户/签约开户公共部分/var签约开户公共部分.txt
+Resource          ../../信贷模块/客户管理/[2] 准客户页面/var准客户页面.txt
+Resource          ../电话审核/电话审核公共部分/var电话审核公共部分.txt
+Resource          ../合规审核/合规检查页面/var合规检查页面.txt
+
+*** Variables ***
+# 左边栏
+${ZongbuShenHeBtnXpath}    //span[text()='总部审核']
+${MenDianMianShenBtnXpath}    //span[text()='门店面审']
+${QianYueKaihuBtnXpath}    //span[text()='签约开户']
+${DianHuaShenHeBtnXpath}    //span[text()='电话审核']
+${HeGuiShenheBtnXpath}    //span[text()='合规审核']
+#右边栏
+# ${PingShenMokuaiCustNameID}    custName    #姓名
+${PingShenMokuaiCustNameXpath}    //div/input[@id='custName']
+${provinceID}     province    #省份
+${cityID}         city    #城市
+${btimeID}        btime    #起始时间
+${etimeID}        etime    #结束时间
+${mobileID}       mobile    #手机号
+${ZongbuShenHeSearID}    //span[contains(text(),'搜索')]    # 放在评审公共页面
+${custIc}         custIc    #身份证
+${proTypeIdID}    proTypeId    #产品类型
+${proIdID}        proId    #产品名称
+${exampleID}      example    #表格ID
+#
+${ChaKanXpath}    //table[@id='example']//a[text()='查看']    # 查看按钮
+${LingQuXpath}    //table[@id='example']//a[text()='领取']    # 领取按钮
+
+*** Keywords ***
+登录到评审页面
+    [Documentation]    登录到评审页面,并验证是否有总部审核元素存在
+    登录ERP
+    sleep    ${NormalSleep}
+    Wait Until Element Is Enabled    ${pingshenXpath}    ${TimeOut}    #enable指能够使用,visable指能看到
+    点击评审
+
+点击总部审核
+    [Documentation]    点击总部审核
+    Click Element    ${ZongbuShenHeBtnXpath}
+
+点击门店面审
+    Click Element    ${MenDianMianShenBtnXpath}
+
+点击签约开户
+    Click Element    ${QianYueKaihuBtnXpath}
+
+点击电话审核
+    Click Element    ${DianHuaShenHeBtnXpath}
+
+点击合规审核
+    Click Element    ${HeGuiShenheBtnXpath}
+
+评审模块查询姓名
+    [Arguments]    ${CustName}
+    [Documentation]    在评审模块,输入姓名,点击查找,验证是否搜到
+    input text    ${PingShenMokuaiCustNameXpath}    ${CustName}
+    sleep    ${ShortSleep}
+    click element    ${ZongbuShenHeSearID}
+    sleep    ${ShortSleep2}
+    Table Should Contain    ${exampleID}    ${CustName}
+
+评审模块查询手机号码
+    [Arguments]    ${mobile}
+    [Documentation]    在评审模块,输入手机号,点击查找,验证是否搜到
+    input text    ${mobileID}    ${mobile}
+    click element    ${ZongbuShenHeSearID}
+    sleep    ${ShortSleep}
+    Table Should Contain    ${exampleID}    ${mobile[-4:]}    #手机号后四位
+
+评审模块查询身份证号
+    [Arguments]    ${idcard}
+    [Documentation]    在评审模块,输入身份证号,点击查找,验证是否搜到
+    input text    ${custIc}    ${idcard}
+    click element    ${ZongbuShenHeSearID}
+    sleep    ${ShortSleep}
+    Table Should Contain    ${exampleID}    ${idcard[-4:]}    #手机号后四位
+
+点击领取
+    [Documentation]    点击领取按钮,进入待处理页面
+    click element    ${LingQuXpath}
+
+指定客户领取
+    [Arguments]    ${CustName}
+    [Documentation]    查找需要领取任务的客户,点击领取.
+    ${index1}    Get Index In Table Column    ${exampleID}    7    ${CustName}    #定位行,用姓名
+    log    ${index1}
+    Click Element At Table Cell    ${exampleID}    ${index1}    10    #点击领取
+
+点击查看
+    [Documentation]    点击查看按钮,进入客户资料页面
+    click element    ${ChaKanXpath}
+
+指定客户查看
+    [Arguments]    ${CustName}
+    [Documentation]    查找需要领取任务的客户,点击查看.
+    ${index1}    Get Index In Table Column    ${exampleID}    8    ${CustName}    #定位行,用姓名
+    log    ${index1}
+    Click Element At Table Cell    ${exampleID}    ${index1}    11    #点击查看
+
+领取客户池任务
+    [Arguments]    ${CustName}
+    [Documentation]    查找需要领取任务的客户,点击领取.
+    ...    ...参数:用户名.
+    评审模块查询姓名    ${CustName}
+    sleep    ${ShortSleep2}
+    指定客户领取    ${CustName}
+    sleep    ${ShortSleep2}
+    点击确定
+    sleep    ${ShortSleep2}
+
+通过审核
+    [Arguments]    ${CustName}
+    [Documentation]    [备注:这里审核1]点击查看,填写授信额度,提交,确定.结束页面,待处理客户页面
+    ...    ...参数:用户名.
+    评审模块查询姓名    ${CustName}
+    sleep    ${ShortSleep}
+    指定客户查看    ${CustName}
+    sleep    ${ShortSleep2}
+    点击通过
+    sleep    ${ShortSleep2}
+    填写预授信额度    ${YuShouXinEDu}
+    sleep    5
+    点击确定
+    sleep    ${ShortSleep2}
+
+评审一条龙
+    [Arguments]    ${CustName}
+    [Documentation]    总部审核,门店面审,开户,财务模块,电话审核,合规检查
+    #<前置条件---
+    ${username}    Set Variable    自捌拾玖
+    登录到意向客户页面
+    点击准客户
+    提交审批    ${username}
+    点击评审
+    sleep    ${ShortSleep2}
+    #前置条件--->
+    总部审核一条龙    ${username}    #待处理客户页面-总部审核
+    sleep    ${ShortSleep2}
+    点击门店面审
+    sleep    ${ShortSleep2}
+    门店面审一条龙    ${username}    #待处理客户页面-面审
+    #财务模块
+    点击财务
+    sleep    ${ShortSleep2}
+    点击放款匹配
+    sleep    ${ShortSleep2}
+    资金匹配一条龙    ${username}    #待处理客户页面
+    sleep    ${ShortSleep2}
+    点击确定    #操作成功提示    #结束在待匹配客户页面
+    sleep    ${ShortSleep2}
+    点击评审
+    sleep    ${ShortSleep2}
+    点击总部审核池
+    sleep    ${ShortSleep2}
+    签约开户一条龙    ${username}
+
+审核搜索按钮
+    [Documentation]    点击审核页面的搜索按钮
+    click element    ${ZongbuShenHeSearID}
+
+新建单子
+    [Arguments]    ${CustName}    ${phoneNum}    ${IDCard}    ${BankNum}
+    [Documentation]    审1,审2,资金匹配,审3,审4
+    ...    初始页面,意向客户页面
+    ...    结束页面,合规检查页面
+    新建准客户    ${CustName}    ${phoneNum}    ${IDCard}    #初始位置:意向客户页面
+    点击准客户
+    提交审批    ${CustName}
+    点击评审
+    sleep    ${ShortSleep2}
+    #前置条件--->
+    总部审核一条龙    ${CustName}    #待处理客户页面-总部审核
+    sleep    ${ShortSleep2}
+    点击门店面审
+    sleep    ${ShortSleep2}
+    门店面审一条龙    ${CustName}    #待处理客户页面-面审
+    #财务模块
+    点击财务
+    sleep    ${ShortSleep2}
+    点击放款匹配
+    sleep    ${ShortSleep2}
+    资金匹配一条龙    ${CustName}    #待处理客户页面-财务
+    sleep    ${ShortSleep2}
+    点击确定    #操作成功提示    #结束在待匹配客户页面-财务
+    sleep    ${ShortSleep2}
+    点击评审
+    sleep    ${ShortSleep2}
+    点击签约开户
+    sleep    ${ShortSleep2}
+    点击开立账户
+    sleep    ${ShortSleep2}
+    签约开户一条龙    ${CustName}    ${BankNum}    #签约开户
+    sleep    ${ShortSleep2}
+    点击电话审核
+    sleep    ${ShortSleep2}
+    电话审核一条龙    ${CustName}
+    sleep    ${ShortSleep2}
+    点击合规审核
+    sleep    ${ShortSleep2}
+    合规审核一条龙    ${CustName}
+    sleep    ${ShortSleep2}
+    点击信贷
+    sleep    ${ShortSleep2}
+    点击意向客户    #到意向客户页面
+    sleep    ${ShortSleep}

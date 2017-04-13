@@ -1,0 +1,44 @@
+*** Settings ***
+Resource          ../../../登录模块/ERP登录模块关键字封装.txt
+Resource          ../../../ERP公共部分/操作提示页面/var操作提示页面.txt
+Resource          ../待匹配客户页面/var待匹配客户页面.txt
+Resource          ../../财务公共部分/var财务模块公共.txt
+Resource          ../待匹配客户页面/var待匹配客户页面.txt
+
+*** Variables ***
+#左边栏
+${DaiPiPeiKeHuBtnXpath}    //a[text()='待匹配客户']
+${ChouZiZhongKeHuBtnXpath}    //a[text()='筹资中客户']
+${ZiChanBaoGuanLiBtnXpath}    //a[text()='资产包管理']
+# 筛选框
+${matchCustomerTableID}    matchCustomerTable    #表格
+${FangKuanPiPei_custNameXpath}    //input[@id='custName']    #放款匹配页面-custName客户姓名
+${compIdID}       compId    #归属公司-下拉框
+${deptIdID}       deptId    #归属部门-下拉框
+${empIdID}        empId    #归属人-下拉框
+${CaiwuMoKuaiSearID}    //span[contains(text(),'搜索')]
+
+*** Keywords ***
+点击待匹配客户
+    [Documentation]    如题
+    Click Element    ${DaiPiPeiKeHuBtnXpath}
+
+点击资产包管理
+    click element    ${ZiChanBaoGuanLiBtnXpath}
+
+资金匹配一条龙
+    [Arguments]    ${CustName}
+    [Documentation]    起始页面: 财务页面
+    ...    结束页面:放款匹配页面
+    Comment    登录到财务页面    #财务模块公共部分
+    Comment    点击放款匹配    #财务模块公共部分 ok
+    点击待匹配客户    #放款匹配公共部分ok
+    Sleep    2
+    查找用户_待匹配客户    ${CustName}    #待匹配客户页面 ok
+    选中指定客户    ${CustName}
+    开始资金匹配    #待匹配客户页面ok
+    投呗线上直投    #选择融资方式和线上渠道页面 ok
+    Sleep    1
+    选择中资联财富产品    信e融Y24期    # ok
+    Sleep    1
+    点击确定

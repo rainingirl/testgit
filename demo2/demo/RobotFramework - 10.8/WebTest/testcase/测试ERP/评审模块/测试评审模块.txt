@@ -1,0 +1,92 @@
+*** Settings ***
+Resource          ../../../resource/测试ERP/评审模块/门店面审/门店面审公共部分/var门店面审公共部分.txt
+Resource          ../../../resource/测试ERP/评审模块/总部审核/总部审核公共部分/var总部审核公共部分.txt
+Resource          ../../../resource/测试ERP/信贷模块/客户管理/[2] 准客户页面/var准客户页面.txt
+Resource          ../../../resource/测试ERP/财务模块/财务公共部分/var财务模块公共.txt
+Resource          ../../../resource/测试ERP/财务模块/放款匹配/放款匹配公共部分/var放款匹配公共部分.txt
+Resource          ../../../resource/测试ERP/评审模块/签约开户/签约开户公共部分/var签约开户公共部分.txt
+Resource          ../../../resource/测试ERP/评审模块/电话审核/电话审核公共部分/var电话审核公共部分.txt
+Resource          ../../../resource/测试ERP/评审模块/合规审核/合规检查页面/var合规检查页面.txt
+
+*** Test Cases ***
+1总部审核-包含提交审核
+    [Tags]
+    登录到意向客户页面
+    点击准客户
+    提交审批    自伍拾壹
+    点击评审
+    sleep    ${ShortSleep2}
+    总部审核一条龙    自伍拾壹
+    [Teardown]    # run keywords Close Browser    断开数据库    关闭浏览器和数据库
+
+1总部审核-门店审核-资金匹配
+    [Documentation]    测试所有的审核
+    [Tags]
+    [Setup]    #连接ERP数据库
+    #<前置条件---
+    ${username}    Set Variable    自捌拾玖
+    登录到意向客户页面
+    点击准客户
+    提交审批    ${username}
+    点击评审
+    sleep    ${ShortSleep2}
+    #前置条件--->
+    总部审核一条龙    ${username}    #待处理客户页面-总部审核
+    sleep    ${ShortSleep2}
+    点击门店面审
+    sleep    ${ShortSleep2}
+    门店面审一条龙    ${username}    #待处理客户页面-面审
+    #财务模块
+    点击财务
+    sleep    ${ShortSleep2}
+    点击放款匹配
+    sleep    ${ShortSleep2}
+    资金匹配一条龙    ${username}    #待处理客户页面
+    sleep    ${ShortSleep2}
+    点击确定    #操作成功提示    #结束在待匹配客户页面
+    sleep    ${ShortSleep2}
+    点击评审
+    sleep    ${ShortSleep2}
+    点击总部审核池
+    sleep    ${ShortSleep2}
+    签约开户一条龙    ${username}
+    [Teardown]    # run keywords 断开数据库    Close Browser    关闭浏览器和数据库
+
+2门店审核
+    [Tags]
+    [Setup]
+    登录到评审页面
+    sleep    ${ShortSleep2}
+    点击门店面审
+    sleep    ${ShortSleep2}
+    门店面审一条龙    自柒拾贰    #待处理客户页面
+    [Teardown]    #Close Browser    #关闭浏览器和数据库
+
+财务-资金匹配
+    [Tags]
+    [Setup]
+    登录到财务页面
+    sleep    ${ShortSleep2}
+    点击放款匹配
+    sleep    ${ShortSleep2}
+    资金匹配一条龙    自捌拾叁    #待处理客户页面
+    点击确定    #操作成功提示    #结束在待匹配客户页面
+    [Teardown]    #Close Browser    #关闭浏览器和数据库
+
+评审-开立账户
+    [Tags]
+    [Setup]
+    登录到评审页面
+    sleep    ${ShortSleep2}
+    点击签约开户
+    sleep    ${ShortSleep2}
+    点击开立账户
+    ${ShortSleep2}
+    [Teardown]    #Close Browser    #关闭浏览器和数据库
+
+temp
+    登录到评审页面    #评审页面-初始化
+    sleep    2
+    点击合规审核
+    sleep    2
+    合规审核一条龙    自壹佰贰拾玖

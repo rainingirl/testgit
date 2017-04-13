@@ -1,0 +1,47 @@
+*** Settings ***
+Resource          ../varERP公共部分.txt
+
+*** Variables ***
+#操作提示
+${PhoneOrIDExistedXpath}    //div[text()='该客户手机号码或身份证已存在，请检查后提交!']
+${SuccessContentXpath}    //div[text()='操作成功']
+${VerifyCustSuccessXpath}    //div[text()='客户验证成功,请前往准客户页面查看。']
+# ${VerifyCustFailXpath}    //div[text()='客户验证成功,请前往准客户页面查看。']
+#公共的按钮
+${saveBtnXpath}    //a[text()='保存']    # 保存按钮xpath
+${cancelBtnXpath}    //a[text()='取消']    # 取消按钮xpath
+${closeBtnXpath}    //a[text()='关闭']    # 关闭按钮xpath
+${okBtnXpath}     //a[text()='确定']    #确定按鈕
+${DoneBtnXpath}    //a[text()='完成']    #完成按鈕
+#xpath-删除页面
+${DelPageTitleXpath}    //div[text()='操作提示']    #弹出框title
+${DelPageContentXpath}    //div[text()='确定删除意向客户？']
+#操作提示-成功页面
+${saveSuccessXpath}    //div[text()='保存成功!']
+${QueRenXpath}    //span[text()='确认']
+
+*** Keywords ***
+点击关闭
+    click element    ${closeBtnXpath}
+
+点击保存
+    [Documentation]    这个适合通用的保存按钮，业务员选择页面的保存按钮，不用这个xpath
+    click element    ${saveBtnXpath}
+
+点击取消
+    click element    ${cancelBtnXpath}
+
+点击确定
+    click element    ${okBtnXpath}
+
+点击确认
+    click element    ${QueRenXpath}
+
+点击完成
+    click element    ${DoneBtnXpath}
+
+点击确定或完成
+    [Documentation]    由于上传文件结束时是点击确定，上传身份证时是点击完成
+    ${bflag}=    If Page Contain Elemet    ${DoneBtnXpath}
+    log    ${bflag}
+    Run Keyword If    ${bflag}    点击完成    else    点击确定

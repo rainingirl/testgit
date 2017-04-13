@@ -1,0 +1,29 @@
+*** Settings ***
+Resource          ../../var待匹配客户页面.txt
+
+*** Variables ***
+# 零用---零用分期Y-30周
+# 信e融Y24期
+#贝格-->贝尔在线->江西银行电子账户
+${proNamesID}     proNames    #产品名称
+${periodsID}      periods    #期数
+${investRateBeginID}    investRateBegin    #年化利率,起始
+${investRateEndID}    investRateEnd    #年化利率,结束
+${SearchBtnXpath_ZhongCaiFu}    //span[@onclick='initEfProduct();']    #搜索按钮,选择中资料财富产品-财富页面
+${SelectBtnXpath_ZhongCaiFu}    //input[@name='prouctId']    #选择第一个产品
+${OKBtnXpath_ZhongCaiFu}    //span[text()='确定']    #确定按钮,和一般的不一样,是span标签
+
+*** Keywords ***
+选择中资联财富产品
+    [Arguments]    ${ProductName}
+    [Documentation]    参数:产品名称.筛选出需要的产品,点击第一个产品
+    Select From List By Text    ${proNamesID}    ${ProductName}    #选择产品
+    sleep    ${ShortSleep}
+    click element    ${SearchBtnXpath_ZhongCaiFu}    #点击搜索按钮
+    选中产品
+    sleep    ${ShortSleep}
+    Click Element    ${OKBtnXpath_ZhongCaiFu}    #点击确定按钮
+
+选中产品
+    [Documentation]    默认选中第一个产品,后期再做从多个产品选择对应
+    click element    ${SelectBtnXpath_ZhongCaiFu}

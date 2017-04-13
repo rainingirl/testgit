@@ -1,0 +1,50 @@
+*** Settings ***
+Documentation     这里存的都是意向客户测试需要的测试数据
+
+*** Variables ***
+#客户管理模块
+${InterestedUserName}    邵曙阳    #用作意向客户查询
+${StartTime}      2016-11-01    #通过时间查询意向客户，开始时间
+${EndTime}        2016-12-01    #通过时间查询意向客户，结束时间
+#只查看自己的客户测试-消息助手
+${SalesManName_SuperAdmin}    消息助手    #
+${Spec_IDCard}    650103198002123023    #身份证
+${Spec_PhoneNum}    18201612293    #手机号
+${Spec_CustName}    藏测灰    #意向客户用户名
+#自动化用作查询测试
+${SearchIDCard}    431301199002108467    #身份证
+${SearchPhoneNum}    18900000001    #手机号
+${SearchCustName}    自动化用作查询测试    #意向客户用户名
+#添加意向客户-业务员
+${AddSalesManName}    李敏    #业务员
+#已存在的意向客户-用来测试有重复手机号或者身份证时是否报错
+${ExistedIDCard}    620821197711071562    #身份证
+${ExistedPhoneNum}    18900001112    #手机号
+${ExistedCustName}    自动化有身份证    #意向客户用户名
+#添加已存在的意向客户时用到的参数
+${NotExistedCustName}    自动化测试
+${NotExistedIDCard}    451022198911020213    #身份证
+${NotExistedPhoneNum}    18900001312    #手机号
+#添加意向客户测试-用来测试添加联系人
+${AddIDCard}      532531198405146168    #身份证
+${AddphoneNum}    18900000002    #手机号
+${AddCustName}    自动化添加测试    #意向客户用户名
+#用作测试删除意向客户
+${DelCustName}    自动化用作删除
+${DelphoneNum}    18910000003
+#意向客户列表操作单元，定位
+${FirstCustRow_Interested}    2    #意向客户，第一行操作单元定位，行
+${FirstCustCol_Interested}    9    #意向客户，第一行操作单元定位，列
+${SelectSaleManCol}    4    #选择业务员单元格定位
+#准客户单元格定位
+${FirstCustRow_Potential}    2    #准客户，第一行操作单元定位，行
+${FirstCustCol_Potential}    10    #准客户，第一行操作单元定位，列
+${FirstCustRow_Sequence_Potential}     1   #准客户，第一行，定位，序列号单元格
+#用作测试跟进记录的意向客户信息
+${FollowUpIDCard}    321088198601114535    #身份证
+${FollowUpphoneNum}    18900000004    #手机号
+${FollowUpCustName}    测试跟进记录    #意向客户用户名
+#新增跟进记录相关
+${FollowUpTime}    2017-01-09    #暂时用这个
+${FollowFormValue}    电话    #电话/活动/拜访
+${FollowUpContent}    测试跟进内容

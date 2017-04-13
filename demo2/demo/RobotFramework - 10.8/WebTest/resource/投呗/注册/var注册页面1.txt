@@ -1,0 +1,7 @@
+*** Variables ***
+${regphoneID}     regphone    # 手机号码
+${imgCodeID}     imgCode    # 验证码
+${btnAcodeID}     btnAcode    # 按钮：获取短信验证码
+${codeidID}     codeid    # 请输入短信验证码
+${SelAgreeXpath}     //p[@class="log_remenberpwd"]//span    # 勾选
+${NextBtnXpath}     //button[text()='下一步']   # 下一步

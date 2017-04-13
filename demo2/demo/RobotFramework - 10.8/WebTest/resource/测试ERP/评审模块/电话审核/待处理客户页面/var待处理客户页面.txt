@@ -1,0 +1,26 @@
+*** Settings ***
+Resource          ../电话审核公共部分/var电话审核公共部分.txt
+
+*** Variables ***
+# ${FollowUpXpath}    //a[text()='跟进']    #跟进
+# ${StartXpath}    //a[text()='开始进件']    #开始进件
+# ${DelXpath}     //a[text()='删除']    #删除
+${DianHuaShenHe_SubmitXpath}    //div[@id='remWindow']//span[contains(text(),'提交')]
+
+*** Keywords ***
+通过电话审核
+    [Arguments]    ${CustName}
+    [Documentation]    点击领取,并通过
+    评审模块查询姓名    ${CustName}
+    sleep    ${ShortSleep}
+    指定客户查看    ${CustName}
+    sleep    ${ShortSleep2}
+    点击通过
+    sleep    ${ShortSleep2}
+    点击提交_电话审核
+    sleep    3
+    点击确定
+    sleep    ${ShortSleep2}
+
+点击提交_电话审核
+    click element    ${DianHuaShenHe_SubmitXpath}

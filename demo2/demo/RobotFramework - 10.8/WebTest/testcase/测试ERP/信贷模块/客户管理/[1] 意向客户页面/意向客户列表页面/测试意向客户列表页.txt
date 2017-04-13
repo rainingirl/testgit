@@ -1,0 +1,89 @@
+*** Settings ***
+Resource          ../../../../../../resource/测试ERP/信贷模块/客户管理/[1] 意向客户页面/意向客户列表页面/跟进页面/var跟进页面.txt
+Resource          ../../../../../../resource/测试ERP/信贷模块/信贷模块公共部分/var信贷模块公共.txt
+Resource          ../../../../../../resource/测试ERP/信贷模块/客户管理/[1] 意向客户页面/意向客户列表页面/添加意向客户页面/var添加意向客户页面.txt
+Resource          ../../客户管理测试数据/data客户管理测试数据.txt
+
+*** Test Cases ***
+[tc1]: 确保点击意向客户按钮后，意向客户显示正确。
+    [Documentation]    需要数据库支持，如果全部遍历的话，需要做接口测试
+    [Tags]    1    Done
+    : FOR    ${i}    IN RANGE    1
+    \    登录到意向客户页面
+    \    Close Browser
+    [Teardown]    #Close Browser    # 关闭浏览器
+
+[tc2]: 用户可以用姓名搜索
+    [Tags]    Done    2    数据库
+    [Setup]    run keywords    登录到意向客户页面    连接ERP数据库
+    确认该意向客户存在    ${AddSalesManName}    ${SearchCustName}    ${DelphoneNum}    ${SearchIDCard}    #如果不存在，则新建
+    查找意向客户_姓名    ${SearchCustName}
+    [Teardown]    Close Browser    #Close Browser | # 关闭浏览器
+
+[tc3]: 用户可以按照起始结束时间搜索
+    [Tags]    Done    3
+    [Setup]    run keywords    登录到意向客户页面    连接ERP数据库
+    确认该意向客户存在    ${AddSalesManName}    ${SearchCustName}    ${DelphoneNum}    ${SearchIDCard}
+    ${endTime}=    获取今天日期
+    查找意向客户_起始时间    ${StartTime}    ${endTime}    ${SearchCustName}
+    [Teardown]    run keywords    Close Browser    断开数据库    # 关闭浏览器
+
+[tc4]: 确保页面显示的创建时间，客户姓名,身份证号码,手机号码,归属公司,归属部门,归属人显示正确。
+    [Documentation]    接口测试，TBD
+    [Tags]    TBD    3
+    [Setup]    登录到意向客户页面
+
+[tc5]: 确保"只查看自己的客户"按钮选中后生效。
+    [Documentation]    业务员是消息助手，
+    [Tags]    3    Done    数据库
+    [Setup]    run keywords    登录到意向客户页面    连接ERP数据库
+    确认该意向客户存在    ${SalesManName_SuperAdmin}    ${Spec_CustName}    ${Spec_PhoneNum}    ${Spec_IDCard}    #确认我自己新建的账户存在
+    点击只看自己的客户
+    表格是否包含    ${tb_intentionID}    ${Spec_CustName}    #验证是否搜索到预期结果
+    [Teardown]    run keywords    Close Browser    断开数据库
+
+[tc6]: 确保点击“跟进”按钮后弹出跟进页面。
+    [Documentation]    点击第一个意向客户的跟进页面，并验证是否进入跟进页面
+    [Tags]    Done    1
+    [Setup]    登录到意向客户页面
+    点击跟进
+    [Teardown]    Close Browser    # 关闭浏览器
+
+[tc7]: 确保点击“开始进件”按钮后验证鹏源三码校验接口是否正确。
+    [Documentation]    完整信息的意向客户
+    ...    信息不完整的意向客户
+    ...    信息错误的意向客户
+    [Tags]    TBD    2
+
+[tc8]: 确保点击“删除”按钮后该客户删除，数据库中还是存在，只是状态变成删除。
+    [Documentation]    1.保证用作删除的意向客户存在
+    ...    2.删除意向客户
+    ...    3.验证数据库字段
+    ...    4.删除该条数据
+    [Tags]    2    数据库    Done
+    [Setup]    run keywords    登录到意向客户页面    连接ERP数据库
+    [Timeout]
+    确认该意向客户存在    ${AddSalesManName}    ${DelCustName}    ${DelphoneNum}    #前置条件：保证已经有意向客户
+    更新指定客户的删除状态    ${DelCustName}    #保证该意向客户的删除状态为1
+    查找意向客户_姓名    ${DelCustName}
+    点击删除
+    等待1秒
+    点击确定
+    等待1秒
+    检查指定意向客户的删除状态    ${DelCustName}    0    #数据库检查status是否为0
+    删除ERP数据库指定字段    ${DelCustName}    #删掉这个数据，防止影响其他测试
+    [Teardown]    run keywords    Close Browser    断开数据库
+
+[tc9]: 确保点击页码跳转到指定页码的客户列表。
+    [Documentation]    意向列表人数太少，只有一页
+    [Tags]    TBD    3
+
+[tc10]: 确保点击“添加意向客户"按钮后弹出添加意向客户页面。
+    [Documentation]    点击第一个意向客户的跟进页面，并验证是否进入跟进页面
+    [Tags]    Done    2
+    [Setup]    登录到意向客户页面
+    点击添加意向客户
+    [Teardown]    Close Browser    # 关闭浏览器
+
+gettime
+    ${time}=    获取今天日期

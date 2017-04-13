@@ -1,0 +1,36 @@
+*** Settings ***
+Resource          ../var待匹配客户页面.txt
+
+*** Variables ***
+# 中资联财富-->投呗->富友金账户
+#贝格-->贝尔在线->江西银行电子账户
+${DaiPiPeisearchBthXpath}    //span[@onclick='initMatchOrder()']    #待匹配客户页面_搜索按钮
+${ZijinPiPeiXpath}    //td/a[text()='资金匹配']
+${financingWayID}    financingWay    #融资方式
+${onlineChannelID}    onlineChannel    #线上渠道:
+${clearChannelID}    clearChannel    #结算通道:
+${investmentModel_selectID}    investmentModel_select    #匹配产品类型:
+
+*** Keywords ***
+资金匹配方式渠道选择
+    [Arguments]    ${RongZiFangshi}    ${XianShangQuDao}    ${JieSuanQuDao}    ${PiPeiChanPinLeiXin}
+    [Documentation]    参数:融资方式,线上渠道,结算渠道,匹配产品类型.[参数都为中文字符]
+    Select From List By Text    ${financingWayID}    ${RongZiFangshi}    #融资方式
+    Sleep    ${ShortSleep}
+    Select From List By Text    ${onlineChannelID}    ${XianShangQuDao}    #线上渠道
+    Sleep    ${ShortSleep}
+    Select From List By Text    ${clearChannelID}    ${JieSuanQuDao}    #结算渠道
+    Sleep    ${ShortSleep}
+    Select From List By Text    ${investmentModel_selectID}    ${PiPeiChanPinLeiXin}    #匹配产品类型
+    Sleep    ${ShortSleep}
+
+点击资金匹配
+    click element    ${ZijinPiPeiXpath}
+
+投呗线上直投
+    资金匹配方式渠道选择    线上理财资金    中资联财富    富友金账户    直投
+    点击确认
+
+投呗线上定投
+    资金匹配方式渠道选择    线上理财资金    中资联财富    富友金账户   定投
+    点击确认

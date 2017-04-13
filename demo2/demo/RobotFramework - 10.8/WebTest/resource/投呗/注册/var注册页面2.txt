@@ -1,0 +1,5 @@
+*** Variables ***
+${reguserNameID}     reguserName    # 用户名
+${pwdOneID}     pwdOne    # 登陆密码
+${pwdTwoID}     pwdTwo    # 确认密码
+${regOKBtnXpath}    //button[text()='确定']   # 确定按钮

@@ -1,0 +1,26 @@
+*** Settings ***
+Resource          ../../../../信贷模块公共部分/var信贷模块公共.txt
+Resource          ../../../../../ERP公共部分/操作提示页面/var操作提示页面.txt
+
+*** Variables ***
+# ${FollowUpXpath}    //a[text()='跟进']    #跟进
+# ${StartXpath}     //a[text()='开始进件']    #开始进件
+# ${DelXpath}       //a[text()='删除']    #删除
+*** Keywords ***
+总部审核指定用户通过
+    [Arguments]    ${CustName}
+    [Documentation]    [备注:第一次审核]查找需要查看的客户,点击查看,选择通过.参数:用户名.
+    评审模块查询姓名  ${CustName}
+    点击查看
+    点击通过    #操作成功页面(操作提示页面)
+
+
+总部审核指定用户退件
+    [Arguments]    ${CustName}
+    [Documentation]    [备注:第一次审核]查找需要查看的客户,点击查看,选择退件.参数:用户名.
+    #TBD
+
+总部审核指定用户拒绝
+    [Arguments]    ${CustName}
+    [Documentation]    [备注:第一次审核]查找需要查看的客户,点击查看,选择拒绝.参数:用户名.
+    #TBD

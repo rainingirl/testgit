@@ -1,0 +1,12 @@
+*** Variables ***
+#----------------------控件ID/Xpath--------------------------
+#登录页面
+${selAccountID}    tab-way-account
+${loginUserNameID}    username
+${loginPasswordID}    password
+${loginAuthCodeID}    code
+${loginBtnID}     loginbtn
+#登录角色选择页面
+${role_choseID}    role_chose
+${selSuAdminXpath}    //td[text()='超级管理员']
+${selXpath}       //a[text()='选择']

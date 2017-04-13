@@ -1,0 +1,23 @@
+*** Settings ***
+Resource          ../签约开户公共部分/var签约开户公共部分.txt
+Resource          客户开户页面/var客户开户页面.txt
+
+*** Variables ***
+${ID}             bankType    #
+${ID}             bankType    #
+${ID}             bankType    #
+${ID}             bankType    #
+
+*** Keywords ***
+选择指定客户开户
+    [Arguments]    ${CustName}
+    [Documentation]    筛选出客户,选择指定的客户,并且点击开户,代码和进入签约一样,需要优化
+    ${index1}    Get Index In Table Column    example    8    ${CustName}   #定位行,用姓名
+    log    ${index1}
+    Click Element At Table Cell    example    ${index1}    15   #点击开户
+选择指定客户进入签约
+    [Arguments]    ${CustName}
+    [Documentation]    筛选出客户,选择指定的客户,并且点击签约,代码和进入签约一样,需要优化
+    ${index1}    Get Index In Table Column    example    8    ${CustName}   #定位行,用姓名
+    log    ${index1}
+    Click Element At Table Cell    example    ${index1}    15   #点击开户

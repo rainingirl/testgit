@@ -1,0 +1,57 @@
+*** Settings ***
+Resource          ../varERP公共部分.txt
+
+*** Variables ***
+#id
+#信息不完整提示
+#xpath
+# ${select_file_Btn_Xpath}    //*[@id='uploader']//*[text()='选择文件']    #选择文件按钮
+${select_file_Btn_Xpath}    //div[@style='position: relative; overflow: hidden; direction: ltr;']    #选择文件按钮
+${upload_Bth_Xpath}    //*[@id="trigger-upload"]    #上传按钮
+#//*[@id="uploader"]/div/div[3]/div
+${id_file_name}    id_file.jpg    #身份证图片附件名称
+${Tittle}         打开    #标题
+${Tittle1}        打开    #标题
+${Loan_Application_Info_Btn_Xpath}    //span[@id='button1' and contains(text(),'借款申请信息')]    #借款申请信息按钮
+
+*** Keywords ***
+上传身份证文件
+    ${id_imgfile_path}=    Join Path    ${CURDIR}\\${id_file_name}
+    Wait Until Element Is Visible    ${select_file_Btn_Xpath}    ${TimeOut}
+    sleep    ${ShortSleep}
+    click element    ${select_file_Btn_Xpath}    #点击选择文件
+    sleep    ${ShortSleep}
+    Control Focus    打开    ${EMPTY}    Edit1
+    Win Wait    [CLASS:#32770]    ${EMPTY}    10
+    Control SetText    打开    ${EMPTY}    Edit1    ${id_imgfile_path}
+    Sleep    2
+    Control Click    打开    ${EMPTY}    Button1
+    # click element    ${upload_Bth_Xpath}    #点击上传
+    Sleep    2
+    点击上传
+    Sleep    2
+    点击完成
+
+上传合同文件
+    ${id_imgfile_path}=    Join Path    ${CURDIR}\\${id_file_name}
+    Wait Until Element Is Visible    ${select_file_Btn_Xpath}    ${TimeOut}
+    sleep    ${ShortSleep}
+    click element    ${select_file_Btn_Xpath}    #点击选择文件
+    sleep    ${ShortSleep}
+    Control Focus    打开    ${EMPTY}    Edit1
+    Win Wait    [CLASS:#32770]    ${EMPTY}    10
+    Control SetText    打开    ${EMPTY}    Edit1    ${id_imgfile_path}
+    Sleep    2
+    Control Click    打开    ${EMPTY}    Button1
+    # click element    ${upload_Bth_Xpath}    #点击上传
+    Sleep    2
+    点击上传
+    Sleep    2
+    点击确定
+    #var操作提示页面.txt
+
+点击选择文件
+    Click Element    ${select_file_Btn_Xpath}
+
+点击上传
+    Click Element    ${upload_Bth_Xpath}

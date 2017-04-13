@@ -1,0 +1,10 @@
+*** Settings ***
+Resource          ../../../../信贷模块公共部分/var信贷模块公共.txt
+Resource          ../../../../../ERP公共部分/操作提示页面/var操作提示页面.txt
+
+*** Variables ***
+# ${FollowUpXpath}    //a[text()='跟进']    #跟进
+# ${StartXpath}    //a[text()='开始进件']    #开始进件
+
+
+*** Keywords ***

@@ -1,0 +1,23 @@
+*** Settings ***
+Resource          ../../../../../../common/keyword.txt
+
+*** Variables ***
+#客户页面通过审核,填写授信额度,都是评审公共页面
+${preQuotaDialog_contractMoneyID}    preQuotaDialog_contractMoney    #预授信额度输入框
+${preQuotaDialog_remarkID}    preQuotaDialog_remark    #预授信备注输入框
+${SubmitBtnXpath}    //*[@id="preQuotaDialog"]//span[contains(text(),'提交')]
+${CancelXpath}    //*[@id="preQuotaDialog"]//span[contains(text(),'取消']
+
+*** Keywords ***
+填写预授信额度
+    [Arguments]    ${Credit_line}    #授信额度
+    [Documentation]    预授信额度(参数:单位/万元). ex:0.4
+    input text    ${preQuotaDialog_contractMoneyID}    ${Credit_line}    #输入预授信额度
+    sleep    ${ShortSleep}
+    点击提交
+
+点击提交
+    click element    ${SubmitBtnXpath}
+
+点击取消
+    click element    ${CancelXpath}

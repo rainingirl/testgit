@@ -1,0 +1,36 @@
+*** Settings ***
+Resource          ../../测试ERP/ERP数据库模块/测试ERP数据库关键字.txt
+Resource          var注册页面1.txt
+Resource          var注册页面2.txt
+Resource          ../弹出框/Dialog.txt
+Resource          ../富友账户/var富友验证页面.txt
+
+*** Keywords ***
+注册新用户并且验证
+    [Arguments]    ${PhoneNum}    ${id}    ${BankNum}
+    [Documentation]    注册并且验证
+    open browser    http://116.236.220.210:8085/zzlcf/account/register    browser=chrome
+    Maximize Browser Window
+    Wait Until Element Is Visible    ${regphoneID}    ${TimeOut}
+    input text    ${regphoneID}    ${PhoneNum}
+    log    手动输入验证码
+    sleep    40    #手动输入验证码
+    #click element    ${btnAcodeID}
+    ${code}    获取手机验证码    ${PhoneNum}
+    input text    ${codeidID}    ${code}
+    click element    ${SelAgreeXpath}
+    sleep    2
+    click element    ${NextBtnXpath}
+    Wait Until Element Is Visible    ${reguserNameID}    ${TimeOut}    #等待注册页面2
+    #填写注册页面2内容
+    input text    ${reguserNameID}    x${PhoneNum}
+    input text    ${pwdOneID}    qwe123
+    input text    ${pwdTwoID}    qwe123
+    click element    ${regOKBtnXpath}
+    sleep    5
+    click element    ${OKBtnXpath}
+    Wait Until Element Is Visible    ${fuyrzID}    ${TimeOut}
+    #进入确认是否验证富友账户页面
+    click element    ${fuyrzID}
+    Wait Until Element Is Visible    ${fyConfirmFormID}    ${TimeOut}    #验证是否进入开户申请页面
+    填写富友账户开户申请信息    ${id}    ${PhoneNum}    ${BankNum}

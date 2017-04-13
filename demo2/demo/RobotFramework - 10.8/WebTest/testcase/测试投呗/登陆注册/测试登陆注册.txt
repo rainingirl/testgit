@@ -1,0 +1,27 @@
+*** Settings ***
+Resource          ../../../resource/投呗/注册/注册模块关键字.txt
+Resource          ../../../resource/投呗/登陆/登陆模块关键字.txt
+
+*** Test Cases ***
+测试登陆注册
+    [Tags]    批量认证
+    [Setup]    连接ERP数据库
+    注册新用户并且验证    18811110013    320723198001212013    6222021002325630013
+    [Teardown]    断开数据库
+
+测试登录并登出
+    [Tags]    批量认证
+    [Setup]    连接ERP数据库
+    ${code}    获取手机验证码    18811110009
+    log    ${code}
+    [Teardown]    断开数据库
+
+1
+    ${a}    Set Variable    1
+    ${b}    Set Variable    2
+    log    x${b}
+
+登陆认证
+    [Setup]    连接ERP数据库
+    登陆到fyConfirm页面
+    [Teardown]    断开数据库

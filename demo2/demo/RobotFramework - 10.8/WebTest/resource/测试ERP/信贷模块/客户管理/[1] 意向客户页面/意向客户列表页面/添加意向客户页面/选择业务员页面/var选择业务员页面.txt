@@ -1,0 +1,28 @@
+*** Settings ***
+Resource          ../../../../../../../../common/keyword.txt
+
+*** Variables ***
+#xpath
+${salesmanPageTitleXpath}    //span[text()='选择业务员']
+${salesmanSearchBtnXpath}    //span[@onclick='initSalesmanList()']    #搜索按钮
+#ID
+${salesmanNameID}    salesmanName    #输入业务员姓名
+${salesman_listID}    salesman_list    #业务员列表
+${salesman_list_firstID}    salesman_list_first    #第一页
+${salesman_list_previousID}    salesman_list_previous    #上一页
+${salesman_list_nextID}    salesman_list_next    #下一页
+${salesman_list_lastID}    salesman_list_last    #最后一页
+${saveBtn_SalsemanXpath}    //input[@id='salesmanName']/ancestor::div[@type='page']//a[text()='保存']
+
+*** Keywords ***
+选择业务员
+    [Arguments]    ${AddSalesManName}
+    [Documentation]    在选择业务员页面，选择业务员，徐小妹/消息助手，点击保存后返回到，添加意向客户
+    #click element    id=${salesmanNameID}
+    Input Text    id=${salesmanNameID}    ${AddSalesManName}
+    sleep    ${ShortSleep}    #需要修改，不应该保留sleep
+    click element    xpath=${salesmanSearchBtnXpath}
+    sleep    ${ShortSleep}     #需要修改，不应该保留sleep
+    Click Element At Table Cell    ${salesman_listID}    ${FirstCustRow_Interested}    ${SelectSaleManCol}
+    sleep    ${ShortSleep}       #需要修改，不应该保留sleep
+    click element    xpath=${saveBtn_SalsemanXpath}

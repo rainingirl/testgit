@@ -1,0 +1,30 @@
+*** Settings ***
+Resource          ../../../../../../../resource/测试ERP/信贷模块/客户管理/[1] 意向客户页面/意向客户列表页面/添加意向客户页面/var添加意向客户页面.txt
+Resource          ../../../客户管理测试数据/data客户管理测试数据.txt
+
+*** Test Cases ***
+[tc11-1]: 新增一个系统身份证已存在的意向客户时报错。
+    [Documentation]    已经存在的意向客户，自动化有身份证
+    ...    620821197711071562
+    ...    18900001112
+    [Tags]    2    Done    数据库
+    [Setup]    run keywords    登录到意向客户页面    连接ERP数据库
+    确认该意向客户存在    ${AddSalesManName}    ${ExistedCustName}    ${ExistedPhoneNum}    ${ExistedIDCard}    #前置条件：保证已经有意向客户
+    添加已存在的意向客户并验证是否提示已存在    ${AddSalesManName}    ${NotExistedCustName}    ${NotExistedPhoneNum}    ${ExistedIDCard}
+    [Teardown]    run keywords    Close Browser    断开数据库    # 关闭浏览器
+
+[tc11-2]: 新增一个系统手机号已存在的意向客户时报错。
+    [Documentation]    已经存在的意向客户，自动化有身份证
+    [Tags]    2    Done    数据库
+    [Setup]    run keywords    登录到意向客户页面    连接ERP数据库
+    确认该意向客户存在    ${AddSalesManName}    ${ExistedCustName}    ${ExistedPhoneNum}    ${ExistedIDCard}    #如果不存在，则新建
+    添加已存在的意向客户并验证是否提示已存在    ${AddSalesManName}    ${NotExistedCustName}    ${ExistedPhoneNum}    ${NotExistedIDCard}
+    [Teardown]    run keywords    Close Browser    断开数据库    # \ # 关闭浏览器
+
+[tc12]: 确保输入正确的手机号和身份证时，意向客户添加成功，在意向客户列表中展示。
+    [Documentation]    前提条件：验证数据库是否有“自动化添加测试”，如果有，数据库删除。
+    [Tags]    2    Done    数据库
+    [Setup]    run keywords    登录到意向客户页面    连接ERP数据库
+    删除ERP数据库指定字段    ${AddCustName}
+    添加意向客户    ${AddSalesManName}    ${AddCustName}    ${AddphoneNum}    ${AddIDCard}
+    [Teardown]    run keywords    Close Browser    断开数据库    #Close Browser | # 关闭浏览器

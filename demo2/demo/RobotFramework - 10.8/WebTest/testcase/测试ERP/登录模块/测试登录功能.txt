@@ -1,0 +1,15 @@
+*** Settings ***
+Resource          ../../../common/keyword.txt
+
+*** Test Cases ***
+测试登录
+    [Tags]
+    登录ERP    # 登录erp
+    [Teardown]    Close Browser    # 关闭浏览器
+
+测试登录并登出
+    [Tags]
+    [Setup]    登录ERP    # 登录erp
+    sleep    ${NormalSleep}
+    登出ERP
+    [Teardown]    Close Browser    # 关闭浏览器

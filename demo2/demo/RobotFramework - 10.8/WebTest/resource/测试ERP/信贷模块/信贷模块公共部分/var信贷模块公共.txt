@@ -1,0 +1,33 @@
+*** Settings ***
+Resource          ../../登录模块/ERP登录模块关键字封装.txt
+
+*** Variables ***
+#首页
+${CustomerManageXpath}    //span[text()='客户管理']    #xpath定位"客户管理"
+${InterestedXpath}    //a[text()='意向客户']
+#流程管理
+${ProcessManageXpath}    //span[text()='流程管理']
+${OrderProgressXpath}    //a[text()='订单进度']
+#数据报表
+${DataReportXpath}    //span[text()='数据报表']
+${PerformanceStatisticsXpath}    //a[text()='业绩统计']
+${CustomerStatisticsXpath}    //a[text()='客户统计']
+${DataStatisticsXpath}    //a[text()='数据统计']
+${CreditsXpath}    //a[text()='信贷报表']
+#催收管理
+${CollectionManageXpath}    //span[text()='催收管理']
+${IndividualCustomersRemindXpath}    //a[text()='个人客户提醒']
+${PersonalOverdueCustomersXpath}    //a[text()='个人逾期客户']
+${CustomerGroupMonitoringXpath}    //a[text()='团队客户监测']
+#死亡复生
+${DeathResurrectionXpath}    //span[text()='死亡复生']
+${RefusedActivateXpath}    //a[text()='拒绝激活']
+
+*** Keywords ***
+登录到信贷页面
+    登录ERP
+    sleep    ${NormalSleep}
+    Wait Until Element Is Enabled    ${xinDaiXpath}    ${TimeOut}
+    Click Element    ${xinDaiXpath}
+    #Wait Until Page Contains Element    xpath=${CustomerManageXpath}    timeout=${TimeOut}
+    Wait Until Element Is Enabled    ${InterestedXpath}    ${TimeOut}

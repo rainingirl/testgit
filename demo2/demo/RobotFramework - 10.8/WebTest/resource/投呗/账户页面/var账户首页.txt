@@ -1,0 +1,11 @@
+*** Variables ***
+${fyconfirmXpath}     //a[text()='立即认证']    # 立即认证
+${ID}     pwdOne    # 账户总览
+# 我的投资
+#回款明细
+#邀请拿奖
+#我的消息
+#账户设置
+*** Keywords ***
+  点击立即认证
+  click element   ${fyconfirmXpath}

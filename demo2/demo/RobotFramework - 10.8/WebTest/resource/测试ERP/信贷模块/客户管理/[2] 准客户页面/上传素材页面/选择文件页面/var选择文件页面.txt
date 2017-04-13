@@ -1,0 +1,27 @@
+*** Settings ***
+Resource          ../../../../../../../common/keyword.txt
+
+*** Variables ***
+#id
+#信息
+#不完整提示
+#xpath
+${select_file_Btn_Xpath}    //*[@id="uploader"]//div[text()='选择文件']    #选择文件按钮
+${upload_Bth_Xpath}    //*[@id="trigger-upload"]    #上传按钮
+${id_file_name}    id_file.jpg    #身份证图片附件名称
+
+
+*** Keywords ***
+上传文件
+    ${id_imgfile_path}=    Join Path    ${CURDIR}    ${id_file_name}
+    Choose File    ${select_file_Btn_Xpath}    ${id_imgfile_path}
+    Control Focus    打开    ${EMPTY}    Edit1
+    # # Wait 10 seconds for the Upload window to appear
+    #WinWait("[CLASS:#32770]","",10)
+    Win Wait    [CLASS:#32770]    ${EMPTY}    10
+    # # Set the File name text on the Edit field
+    Control SetText    打开    ${EMPTY}    Edit1
+    Sleep    2
+    # # Click on the Open button
+    # ControlClick("打开", "", "Button1")
+    Control Click    打开    ${EMPTY}    Button1

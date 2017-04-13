@@ -1,0 +1,13 @@
+*** Settings ***
+Resource          ../../../common/keyword.txt    # 导入所有含子目录所有的txt
+Resource          操作提示页面/var操作提示页面.txt
+Resource          上传文件页面/var上传文件.txt
+
+*** Variables ***
+
+*** Keywords ***
+选中指定客户
+    [Arguments]    ${CustName}
+    [Documentation]    搜索表中的客户姓名,并点击选中
+    # 导入所有含子目录所有的txt
+    click element    //td[text()='${CustName}']

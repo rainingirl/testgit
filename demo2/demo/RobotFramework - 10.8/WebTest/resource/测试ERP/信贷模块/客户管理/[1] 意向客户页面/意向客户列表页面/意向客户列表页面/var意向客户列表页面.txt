@@ -1,0 +1,74 @@
+*** Settings ***
+Resource          ../../../../信贷模块公共部分/var信贷模块公共.txt
+Resource          ../../../../../ERP公共部分/操作提示页面/var操作提示页面.txt
+Resource          ../../../客户管理公用部分/var客户管理公共页面.txt
+
+*** Variables ***
+#id
+${userNameID}     userName
+${startTimeID}    startTime
+${endTimeID}      endTime
+${btnColSearID}    //li[@id="btnColSear"]//span[contains(text(),'搜索')]    # 三个该ID，点击返回第一个
+# <span class="btn_pad_s2 btn_color1" onclick="serchCrmOrder()"><s class="icon-search"></s>&nbsp;搜索</span>
+${kehuID}         kehu    #只查看自己的客户
+${tb_intentionID}    tb_intention
+${homeXpath}      //a[text()='首页']
+${settingXpath}    //a[text()='设置']
+${changePasswordXpath}    //a[text()='修改密码']
+#xpath
+${SearchBtnXpath}    //li[@id="btnColSear"]//span[contains(text(),'搜索')]    #    意向客户页面搜索按钮
+${addCustomerXpath}    //span[@onclick='addCustomer()']    # 添加意向客户
+#子页面
+#跟进
+${FollowUpXpath}    //a[text()='跟进']    #跟进
+${StartXpath}     //a[text()='开始进件']    #开始进件
+${DelXpath}       //a[text()='删除']    #删除
+
+*** Keywords ***
+登录到意向客户页面
+    [Documentation]    登录到信贷页面-意向客户页面
+    登录到信贷页面
+    sleep    ${NormalSleep}
+    Wait Until Element Is Enabled    ${InterestedXpath}    ${TimeOut}
+    点击意向客户
+    Wait Until Element Is Visible    ${InterestedPageTitleXpath}    ${TimeOut}    #验证是否进入意向客户页面
+
+点击跟进
+    [Documentation]    这里指意向客户列表的第一个客户
+    Click Subelement At Table Cell    ${tb_intentionID}    ${FirstCustRow_Interested}    ${FirstCustCol_Interested}    ${FollowUpXpath}
+    Wait Until Page Contains Element    xpath=${genjinPageTitleXpath}    timeout=${TimeOut}    #验证是否进入跟进页面
+
+点击添加意向客户
+    [Documentation]    点击添加意向客户按钮，并且验证是否进入新建意向客户页面
+    click element    xpath=${addCustomerXpath}
+    Wait Until Page Contains Element    xpath=${addCustomerTitleXpath}    timeout=${TimeOut}    #验证是否进入添加意向客户页面
+
+点击开始进行
+    Click Subelement At Table Cell    ${tb_intentionID}    ${FirstCustRow_Interested}    ${FirstCustCol_Interested}    ${StartXpath}    #点击开始进行
+
+点击删除
+    [Documentation]    这里指意向客户列表的第一个客户
+    Click Subelement At Table Cell    ${tb_intentionID}    ${FirstCustRow_Interested}    ${FirstCustCol_Interested}    ${DelXpath}
+    Wait Until Page Contains Element    xpath=${DelPageContentXpath}    timeout=${TimeOut}    #验证是否有删除确认页面
+    点击确定
+
+点击只看自己的客户
+    click element    ${kehuID}    #点击“只查看自己的客户”
+
+查找意向客户_姓名
+    [Arguments]    ${CustName}
+    [Documentation]    查找意向客户，步骤:1.输入意向客户姓名 2.点击搜索 3.查看验证是否搜索成功到该意向客户
+    Input Text    ${userNameID}    ${CustName}    #输入要查找的姓名    #去掉ID测试
+    click element    ${btnColSearID}    #点击搜索按钮
+    sleep    ${ShortSleep}    #需要修改，不应该保留sleep
+    表格是否包含    ${tb_intentionID}    ${CustName}    #验证是否搜索到预期结果
+
+查找意向客户_起始时间
+    [Arguments]    ${StartTime}    ${EndTime}    ${CustName}
+    [Documentation]    查找意向客户，步骤:1.输入起始时间 2.点击搜索 3.查看验证是否搜索成功到该意向客户
+    Input Text    id=${startTimeID}    ${StartTime}    #输入开始时间
+    Input Text    id=${endTimeID}    ${EndTime}    #输入结束时间
+    click element    ${btnColSearID}    #点击搜索按钮
+    #验证是否搜索到预期结果
+    sleep    ${ShortSleep}    #需要修改，不应该保留sleep
+    表格是否包含    ${tb_intentionID}    ${CustName}    #验证是否搜索到预期结果

@@ -1,0 +1,246 @@
+*** Settings ***
+Resource          ../var准客户页面.txt
+
+*** Variables ***
+${UploadBtn_Xpath}    //span[@id='button1' and contains(text(),'上传素材')]    #定位上传素材按钮
+#产品系列：            工薪系列    产品名称：    工薪测试产品    产品期数：    3 期
+#保存按钮
+${order_apply_subID}    order_apply_sub
+${back_Btn_Xpath}      //div[@id='attachmentUpload']//span[contains(text(),'返回')]
+#必填项元素定位
+# 借款申请信息
+${crm_apply_duetimeID}    crm_apply_duetime    #希望期数,下拉
+${crm_apply_momeyID}    crm_apply_momey    #申请金额
+${crm_apply_paymentID}    crm_apply_payment    #希望的还款方式,下拉
+${crm_apply_repaymentMomeyID}    crm_apply_repaymentMomey    #月供能力
+${highestMoneyID}    highestMoney    #可接受每周最高还款额
+${crm_apply_purposeID}    crm_apply_purpose    #借款用途
+# 产品信息            非必填
+# 您的个人资料
+${crm_apply_maritalID}    crm_apply_marital    #婚姻状况
+${order_apply_highestDegreeID}    order_apply_highestDegree    #教育程度
+${crm_apply_custEmailID}    crm_apply_custEmail    #电子邮箱
+${endTimeSpanID}    endTimeSpan    #长期勾选选项
+${order_apply_issuerID}    order_apply_issuer    #发证机关
+#身份证地址
+${hometownProvinceID}    hometownProvince    #身份证省
+${hometownCityID}    hometownCity    #身份证市
+${hometownAreaID}    hometownArea    #身份证区、县
+${hometownAddressID}    hometownAddress    #身份证具体地址
+${order_apply_liveTimeID}    order_apply_liveTime    #本地生活时长
+#现居住地址
+${sameID}         same    #与身份证地址相同，勾选选项
+${order_apply_nowliveTimeID}    order_apply_nowliveTime    #现居地生活时长
+${order_apply_assetsTypeID}    order_apply_assetsType    #本市房产状况
+${order_apply_assetsNatureID}    order_apply_assetsNature    #房产性质
+#车产资料
+${order_apply_gvehiclePropertyID}    order_apply_gvehicleProperty    #本人名下车产
+#职业资料
+#职业归属按钮（工薪没有该选项）
+${professionR1ID}    professionR1    #工薪者
+${professionR2ID}    professionR2    #经营者
+${professionR3ID}    professionR3    #自由职业者
+${professionR4ID}    professionR4    #在读学生
+${professionR5ID}    professionR5    #退休人员
+#
+${companyID}      company    #单位名称
+${compayDeptID}    compayDept    #部门
+${compayPositionID}    compayPosition    #职务
+${companyNatureID}    companyNature    #单位性质！
+${companyScaleID}    companyScale    #单位规模
+${positionLevelID}    positionLevel    #职级
+# 单位地址
+${compayProvIdID}    compayProvId    #单位省
+${compayCityIdID}    compayCityId    #单位市
+${compayAreaIdID}    compayAreaId    #单位区
+${addressID}      address    #单位具体地址
+#单位固定电话
+${compayTelAreaID}    compayTelArea    #区号
+${compayTelNoID}    compayTelNo    #电话
+${compayTelExtID}    compayTelExt    #分机
+${entryTimeID}    entryTime    #何时进入公司
+# 经营性材料---缺少ID
+${identityID}     identity    #身份
+${businessYearID}    businessYear    #年，企业经营年限（以实际日期为准）：
+${businessMonID}    businessMon    #月，企业经营年限（以实际日期为准）：
+${businessOwnershipID}    businessOwnership    #请选择经营地归属！
+${staffPeopleName}    staffPeople    #请填写员工人数！，没有ID
+${registeredCapitalName}    registeredCapital    #注册资本：，没有ID
+${comAnnualIncomeName}    comAnnualIncome    #过去一年营业收入，没有ID
+${yearProfitName}    yearProfit    #过去一年利润，没有ID
+# 收支状况
+${annualIncomeID}    annualIncome    #年收入
+${monthlyIncomeID}    monthlyIncome    #每月工作收入
+${expensesID}     expenses    #月均支出
+${supplyID}       supply    #供养人数
+# 联系人资料
+#直系亲属联系人1
+${mateNameID}     mateName    #直系亲属联系人1姓名
+# ${ID}           ID    #关系
+${mateIsKnowID}    mateIsKnow    #是否知晓此项借款
+${phoneID}        phone    #手机号
+# 直系亲属联系人2
+${nameOID}        nameO    #直系亲属联系人2姓名
+${linkman_relation1ID}    linkman_relation1    #关系
+${linkman_isknowID}    linkman_isknow    #是否知晓此项借款
+${phoneOID}       phoneO    #手机号
+# 直系亲属联系人3
+${linkman3_name_textID}    linkman3_name_text    #直系亲属联系人3姓名
+${linkman_relation_selectID}    linkman_relation_select    #关系
+${linkman_isknow_selectID}    linkman_isknow_select    #是否知晓此项借款
+${linkman_mobile_textID}    linkman_mobile_text    #手机号
+#其他联系人
+# *其他联系人1
+${nameTID}        nameT    #*其他联系人1：
+${u1024_inputID}    u1024_input    #关系
+${linkman_isknow_select1ID}    linkman_isknow_select1    #是否知晓此项借款
+${phoneT0ID}      phoneT0    #手机号
+# *其他联系人2
+${nameT1ID}       nameT1    #*其他联系人2：
+${u1024_input1ID}    u1024_input1    #关系
+${linkman_isknow2ID}    linkman_isknow2    #是否知晓此项借款
+${phoneTID}       phoneT    #手机号
+# ${ID}           ID    #产品期数
+# ${ID}           ID    #产品期数
+# ${ID}           ID    #产品期数
+# ${ID}           ID    #产品期数
+
+*** Keywords ***
+填写借款申请信息
+    Select From List By Text    ${crm_apply_duetimeID}    ${crm_apply_duetime}
+    sleep    ${sleep_select}
+    Input Text    ${crm_apply_momeyID}    ${crm_apply_momey}
+    Select From List By Text    ${crm_apply_paymentID}    ${crm_apply_payment}
+    sleep    ${sleep_select}
+    Input Text    ${crm_apply_repaymentMomeyID}    ${crm_apply_repaymentMomey}
+    Input Text    ${highestMoneyID}    ${highestMoney}
+    Select From List By Text    ${crm_apply_purposeID}    ${crm_apply_purpose}
+
+填写产品信息
+    #暂时为空
+
+填写您的个人资料
+    Select From List By Text    ${crm_apply_maritalID}    ${crm_apply_marital}
+    sleep    ${sleep_select}
+    Select From List By Text    ${order_apply_highestDegreeID}    ${order_apply_highestDegree}
+    sleep    ${sleep_select}
+    Input Text    ${crm_apply_custEmailID}    ${crm_apply_custEmail}
+    click element    ${endTimeSpanID}
+    input text    ${order_apply_issuerID}    ${order_apply_issuer}
+    #身份证地址
+    Select From List By Text    ${hometownProvinceID}    ${hometownProvince}
+    sleep    ${sleep_select}
+    Select From List By Text    ${hometownCityID}    ${hometownCity}
+    sleep    ${sleep_select}
+    Select From List By Text    ${hometownAreaID}    ${hometownArea}
+    input text    ${hometownAddressID}    ${hometownAddress}
+    sleep    ${sleep_select}
+    input text    ${order_apply_liveTimeID}    ${order_apply_liveTime}
+    click element    ${sameID}
+    input text    ${order_apply_nowliveTimeID}    ${order_apply_nowliveTime}
+    Select From List By Text    ${order_apply_assetsTypeID}    ${order_apply_assetsType}
+    sleep    ${sleep_select}
+    Select From List By Text    ${order_apply_assetsNatureID}    ${order_apply_assetsNature}
+    sleep    ${sleep_select}
+
+填写车产资料
+    Select From List By Text    ${order_apply_gvehiclePropertyID}    ${order_apply_gvehicleProperty}
+    sleep    ${sleep_select}
+
+填写职业资料
+    # click element    ${professionR1ID}    #选择工薪
+    input text    ${companyID}    ${company}
+    input text    ${compayDeptID}    ${compayDept}
+    input text    ${compayPositionID}    ${compayPosition}
+    Select From List By Text    ${companyNatureID}    ${companyNature}
+    sleep    ${sleep_select}
+    Select From List By Text    ${companyScaleID}    ${companyScale}
+    sleep    ${sleep_select}
+    Select From List By Text    ${positionLevelID}    ${positionLevel}
+    sleep    ${sleep_select}
+    Select From List By Text    ${compayProvIdID}    ${compayProvId}
+    sleep    ${sleep_select}
+    Select From List By Text    ${compayCityIdID}    ${compayCityId}
+    sleep    ${sleep_select}
+    Select From List By Text    ${compayAreaIdID}    ${compayAreaId}
+    input text    ${addressID}    ${address}
+    sleep    ${sleep_select}
+    input text    ${compayTelAreaID}    ${compayTelArea}
+    input text    ${compayTelNoID}    ${compayTelNo}
+    input text    ${compayTelExtID}    ${compayTelExt}
+    input text    ${entryTimeID}    ${entryTime}
+
+填写经营性材料
+    Select From List By Text    ${identityID}    ${identity}
+    sleep    ${sleep_select}
+    input text    ${businessYearID}    ${businessYear}
+    input text    ${businessMonID}    ${businessMon}
+    Select From List By Text    ${businessOwnershipID}    ${businessOwnership}
+    sleep    ${sleep_select}
+    input text    ${staffPeopleName}    ${staffPeople}
+    input text    ${registeredCapitalName}    ${registeredCapital}
+    input text    ${comAnnualIncomeName}    ${comAnnualIncome}
+    input text    ${yearProfitName}    ${yearProfit}
+
+填写收支状况
+    input text    ${annualIncomeID}    ${annualIncome}
+    input text    ${monthlyIncomeID}    ${monthlyIncome}
+    input text    ${expensesID}    ${expenses}
+    input text    ${supplyID}    ${supply}
+
+填写联系人资料
+    #亲属1,默认配偶
+    input text    ${mateNameID}    ${mateName}
+    Select From List By Text    ${mateIsKnowID}    ${mateIsKnow}
+    sleep    ${sleep_select}
+    input text    ${phoneID}    ${phone}
+    #直系亲属2
+    input text    ${nameOID}    ${nameO}
+    Select From List By Text    ${linkman_relation1ID}    ${linkman_relation1}
+    sleep    ${sleep_select}
+    Select From List By Text    ${linkman_isknowID}    ${linkman_isknow}
+    sleep    ${sleep_select}
+    input text    ${phoneOID}    ${phoneO}
+    #直系亲属3
+    input text    ${linkman3_name_textID}    ${linkman3_name_text}
+    Select From List By Text    ${linkman_relation_selectID}    ${linkman_relation_select}
+    sleep    ${sleep_select}
+    Select From List By Text    ${linkman_isknow_selectID}    ${linkman_isknow_select}
+    sleep    ${sleep_select}
+    input text    ${linkman_mobile_textID}    ${linkman_mobile_text}
+    #其他联系人1
+    input text    ${nameTID}    ${nameT}
+    Select From List By Text    ${u1024_inputID}    ${u1024_input}
+    sleep    ${sleep_select}
+    Select From List By Text    ${linkman_isknow_select1ID}    ${linkman_isknow_select1}
+    sleep    ${sleep_select}
+    input text    ${phoneT0ID}    ${phoneT0}
+    #其他联系人2
+    input text    ${nameT1ID}    ${nameT1}
+    Select From List By Text    ${u1024_input1ID}    ${u1024_input1}
+    sleep    ${sleep_select}
+    Select From List By Text    ${linkman_isknow2ID}    ${linkman_isknow2}
+    sleep    ${sleep_select}
+    input text    ${phoneTID}    ${phoneT}
+
+填写客户来源
+    #TBD
+
+填写客户详细信息
+    填写借款申请信息
+    填写您的个人资料
+    填写车产资料
+    填写职业资料
+    #填写经营性材料
+    填写收支状况
+    填写联系人资料
+
+点击上传素材
+    Mouse Over    ${UploadBtn_Xpath}    #定位到上传素材按钮
+    click element    ${UploadBtn_Xpath}
+
+点击保存
+    click element    ${order_apply_subID}
+
+点击返回
+    click element     ${back_Btn_Xpath}

@@ -1,0 +1,42 @@
+*** Settings ***
+Resource          ../意向客户列表页面/var意向客户列表页面.txt
+Resource          ../添加意向客户页面/var添加意向客户页面.txt
+Resource          新建跟进页面/var新建跟进页面.txt
+Resource          ../../../../../ERP公共部分/操作提示页面/var操作提示页面.txt
+
+*** Variables ***
+#id
+${genjinPageID}    layui-layer7
+${tb_followupID}    tb_followup    #跟进记录表格ID
+${tb_followup_firstID}    tb_followup_first    #第一页
+${tb_followup_previousID}    tb_followup_previous    #上一页
+${tb_followup_nextID}    tb_followup_next    #下一页
+${tb_followup_lastID}    tb_followup_last    #最后一页
+#xpath
+${genjinPageTitleXpath}    //s[text()='跟进记录']
+#${genjinPageTitleXpath}    //s[text()='跟进记录']
+${addGenJinXpath}    //a[text()='新增跟进']    #新增跟进按钮
+${closeGenJinXpath}    //a[text()='关闭']    #关闭按钮
+
+*** keywords ***
+确认有跟进记录
+    [Arguments]    ${followUpCustName}
+    [Documentation]    确认有跟进记录，如果没有跟进记录的话，需要前置条件：意向客户页面，结束时页面：意向客户页面
+    ${bflag}=    Run Keyword And Return Status    Check If Exists In Database    select * from crm_followup where cust_id =(select id from crm_cust_info WHERE cust_name="${followUpCustName}");    #判断是否在数据库中存在
+    run keyword if    not ${bflag}    run keywords    查找意向客户_姓名    ${followUpCustName}
+    ...    AND    点击跟进
+    ...    AND    新建一条跟进记录    ${FollowUpTime}    ${FollowFormValue}    ${FollowUpContent}
+    ...    AND    点击关闭
+
+新建一条跟进记录
+    [Arguments]    ${FollowUpTime}    ${FollowFormValue}    ${FollowUpContent}
+    [Documentation]    在跟进页面新建一条跟进记录，时间选择今天的日期
+    click element    ${addGenJinXpath}    #新增跟进
+    sleep    ${ShortSleep}    #需要修改，不应该保留sleep
+    Input Text    ${followTimeID}    ${FollowUpTime}
+    Select From List By Value    id=${followFormID}    ${FollowFormValue}    #电话/活动/拜访
+    Input Text    id=${followContentID}    ${FollowUpContent}
+    var操作提示页面.点击保存
+    Sleep    ${ShortSleep}    #需要修改
+    点击确定
+    Sleep    ${ShortSleep}    #需要修改

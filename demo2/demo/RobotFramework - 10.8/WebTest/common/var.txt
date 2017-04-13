@@ -1,0 +1,37 @@
+*** Settings ***
+Documentation     只存测试的常用参数
+
+*** Variables ***
+#----------------------常量--------------------------
+#ERP网址账号密码
+${ERPLoginURL}    http://172.16.10.8:8081/erpv3_client/sys/toLogin.html
+# ${ERPLoginURL}    http://172.16.10.5:8081/erpv3_client/sys/toLogin.html
+${ERPLoginUserName}    superadmin    #默认登录账户为超级管理员账户
+${ERPLoginPassword}    888888
+${ERPLoginCodeStr}    1111    #随意取的code
+#10.9数据库账号密码
+${DBName}       erpdb
+${DBUser}       zzl463431
+${DBPass}       zhiwang.123
+${DBHost}       172.16.10.9
+${DBPort}       3306
+ # 10.5数据库账户密码信息
+# ${DBName}         erp_data
+# ${DBUser}         erpuser
+# ${DBPass}         erpuser..1314
+# ${DBHost}         172.16.10.5
+# ${DBPort}         3306
+#设置超时
+${TimeOut}        20
+${NormalSleep}    5
+${ShortSleep}     1
+${ShortSleep2}    2
+${LongSleep}      15
+${sleep_select}    0.3    #下拉框休息时间
+#数据库字段
+${Cust_Status_Existed}    1    #用户存在
+${Cust_Status_NotExisted}    0    #用户不存在
+#投呗
+${ToubeiURL}      http://116.236.220.210:8085/zzlcf/account/login
+#ERP评审
+${YuShouXinEDu}    0.4   # 预授信额度 

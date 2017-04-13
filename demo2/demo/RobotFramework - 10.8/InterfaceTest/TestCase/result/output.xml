@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generated="20170314 09:33:05.603" generator="Robot 3.0 (Python 2.7.13 on win32)">
+<suite source="G:\TestScript\RobotFramework - 10.8\InterfaceTest\TestCase" id="s1" name="TestCase">
+<suite source="G:\TestScript\RobotFramework - 10.8\InterfaceTest\TestCase\Demo.txt" id="s1-s1" name="Demo">
+<test id="s1-s1-t1" name="fetch">
+<kw name="Set Variable" library="BuiltIn">
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<arguments>
+<arg>x: 647, y: 1174</arg>
+</arguments>
+<assign>
+<var>${var}</var>
+</assign>
+<msg timestamp="20170314 09:33:06.268" level="INFO">${var} = x: 647, y: 1174</msg>
+<status status="PASS" endtime="20170314 09:33:06.268" starttime="20170314 09:33:06.268"></status>
+</kw>
+<kw name="Fetch From Left" library="String">
+<doc>Returns contents of the ``string`` before the first occurrence of ``marker``.</doc>
+<arguments>
+<arg>${var}</arg>
+<arg>,</arg>
+</arguments>
+<assign>
+<var>${x}</var>
+</assign>
+<msg timestamp="20170314 09:33:06.269" level="INFO">${x} = x: 647</msg>
+<status status="PASS" endtime="20170314 09:33:06.269" starttime="20170314 09:33:06.268"></status>
+</kw>
+<kw name="Fetch From Right" library="String">
+<doc>Returns contents of the ``string`` after the last occurrence of ``marker``.</doc>
+<arguments>
+<arg>${x}</arg>
+<arg>${SPACE}</arg>
+</arguments>
+<assign>
+<var>${x}</var>
+</assign>
+<msg timestamp="20170314 09:33:06.269" level="INFO">${x} = 647</msg>
+<status status="PASS" endtime="20170314 09:33:06.269" starttime="20170314 09:33:06.269"></status>
+</kw>
+<kw name="Fetch From Right" library="String">
+<doc>Returns contents of the ``string`` after the last occurrence of ``marker``.</doc>
+<arguments>
+<arg>${var}</arg>
+<arg>y:${SPACE}</arg>
+</arguments>
+<assign>
+<var>${y}</var>
+</assign>
+<msg timestamp="20170314 09:33:06.269" level="INFO">${y} = 1174</msg>
+<status status="PASS" endtime="20170314 09:33:06.269" starttime="20170314 09:33:06.269"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${x}</arg>
+</arguments>
+<msg timestamp="20170314 09:33:06.270" level="INFO">647</msg>
+<status status="PASS" endtime="20170314 09:33:06.270" starttime="20170314 09:33:06.270"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${y}</arg>
+</arguments>
+<status status="PASS" endtime="20170314 09:33:06.270" starttime="20170314 09:33:06.270"></status>
+</kw>
+<status status="PASS" endtime="20170314 09:33:06.270" critical="yes" starttime="20170314 09:33:06.268"></status>
+</test>
+<status status="PASS" endtime="20170314 09:33:06.270" starttime="20170314 09:33:05.672"></status>
+</suite>
+<status status="PASS" endtime="20170314 09:33:06.271" starttime="20170314 09:33:05.603"></status>
+</suite>
+<statistics>
+<total>
+<stat fail="0" pass="1">Critical Tests</stat>
+<stat fail="0" pass="1">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat fail="0" id="s1" name="TestCase" pass="1">TestCase</stat>
+<stat fail="0" id="s1-s1" name="Demo" pass="1">TestCase.Demo</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

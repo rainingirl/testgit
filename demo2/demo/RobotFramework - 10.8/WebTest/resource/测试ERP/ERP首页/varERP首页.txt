@@ -1,0 +1,38 @@
+*** Settings ***
+Resource          ../../../common/keyword.txt
+Resource          ../评审模块/评审公共部分/var评审模块公共.txt
+
+*** Variables ***
+#首页
+${homeXpath}      //a[text()='首页']
+${settingXpath}    //a[text()='设置']
+${changePasswordXpath}    //a[text()='修改密码']
+${logOutXpath}    //a[text()='退出']
+${companyMessageXpath}    //span[text()='公司通知']    #xpath定位"公司通知"
+${renShiXpath}    //a[text()='人事']    #xpath定位"人事"
+${xinDaiXpath}    //*[@id="headTemplateHtml"]//a[text()='信贷']    #xpath定位"信贷"
+${pingshenXpath}    //a[text()='评审']    #xpath定位"评审"
+${caiFuXpath}     //a[text()='财富']    #xpath定位"财富"
+${caiWuXpath}     //a[text()='财务']    #xpath定位"财务"
+${daiHouXpath}    //a[text()='贷后']    #xpath定位"贷后"
+${chanPinXpath}    //a[text()='产品']    #xpath定位"产品"
+${beiGeXpath}     //a[text()='贝格']    #xpath定位"贝格"
+${gongZuoLiuXpath}    //a[text()='工作流']    #xpath定位"工作流"
+${zhengXinXpath}    //a[text()='征信']    #xpath定位"征信"
+${moreMenuID}     moreMenu_tri    #id定位"更多应用"
+
+*** Keywords ***
+点击评审
+    [Documentation]    前置页面:有评审按钮显示即可
+    Click Element    ${pingshenXpath}
+    Wait Until Element Is Enabled    ${ZongbuShenHeBtnXpath}    ${TimeOut}    #判断是否有总部审核按钮
+
+点击财务
+    [Documentation]    前置页面:有财务按钮显示即可
+    Click Element    ${caiWuXpath}
+    Wait Until Element Is Enabled    ${FangKuanPiPeiBtnXpath}    ${TimeOut}    #判断是否有放款匹配按钮
+
+点击信贷
+  [Documentation]    前置页面:客户管理按钮出现即可
+  Click Element    ${xinDaiXpath}
+  Wait Until Element Is Enabled    //span[text()='客户管理']     ${TimeOut}    #后续修改

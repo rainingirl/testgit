@@ -1,0 +1,76 @@
+*** Settings ***
+Resource          ../../../common/keyword.txt
+Resource          ../../测试ERP/ERP数据库模块/测试ERP数据库关键字.txt
+
+*** Variables ***
+${fyConfirmFormID}    fyConfirmForm    #开户申请资料填写FormID
+${mobileID}       mobile    # 手机号（默认已经填写）
+${kaptchaImageID}    kaptchaImage    #图形验证码
+${btnAcodeID}     btnAcode    #点击获取手机验证码
+${regcheckCodeID}    regcheckCode    #手机验证码
+${userNameID}     userName    #真实姓名
+# ${icTypeID}     icType    #证件类型-下拉框
+${icTypeXpath}    //input[@placeholder='身份证']    #证件类型-下拉框
+${icTypeValueXpath}    //dd[@lay-value='0']
+${icNoID}         icNo    #证件号码
+#${selectProvinceID}    selectProvince    #开户行省市*-下拉框
+${selectProvinceXpath}    //input[@placeholder='请选择省']    #开户行省市*-下拉框
+${ProviceValueXpath}    //dd[@lay-value='1_1_0']    #北京市
+#${selectCityID}    selectCity    #开户行区县-下拉框
+${selectCityXpath}    //input[@placeholder='北京市']    #开户行区县-下拉框
+${CityVauleXpath}    //dd[@lay-value='1000']    #北京市
+#${selectBankID}    selectBank    #开户行行别
+${selectBankXpath}    //input[@placeholder='请选择开户行']    #开户行行别-下拉框
+${BankValueXpath}    //dd[@lay-value='0102']
+${bankNoID}       bankNo    #银行卡号
+${firstLoginPwdID}    firstLoginPwd    #富友账户登录密码
+${secondLoginPwdID}    secondLoginPwd    #登录确认密码
+${firstPayPwdID}    firstPayPwd    #富友账户支付密码
+${secondPayPwdID}    secondPayPwd    #支付确认密码
+${agreeBtnID}     agreeBtn    #勾选我同意
+${agreeFyID}      agreeFy    #同意开户
+${cancelBtnID}    cancelBtn    #返回
+
+*** Keywords ***
+填写富友账户开户申请信息
+    [Arguments]    ${id}    ${PhoneNum}    ${BankNO}   # 身份证号码+手机号+银行卡号
+    #input text    ${mobileID}    手机号
+    input text    ${userNameID}    真实姓名
+    #Select From List By Text    ${icTypeID}    身份证
+    sleep    1
+    #click element    ${icTypeXpath}    #选择身份证
+    sleep    1
+    #click element    ${icTypeValueXpath}
+    sleep    1
+    input text    ${icNoID}    ${id}
+    sleep    1
+    click element    ${selectProvinceXpath}    #选择省
+    sleep    1
+    click element    ${ProviceValueXpath}
+    sleep    1
+    #click element    ${selectCityXpath}    #选择市
+    sleep    1
+    #click element    ${CityValueXpath}
+    sleep    1
+    click element    ${selectBankXpath}    #选择行
+    sleep    1
+    click element    ${BankValueXpath}
+    sleep    1
+    #input text    ${icNoID}    ${id}
+    # Select From List By Text    ${selectProvinceID}    北京市
+    # Select From List By Text    ${selectCityID}    北京市
+    # Select From List By Text    ${bankNoID}    中国工商银行
+     input text    ${bankNoID}    ${BankNO}
+    input text    ${firstLoginPwdID}    qwer1234
+    input text    ${secondLoginPwdID}    qwer1234
+    input text    ${firstPayPwdID}    qwer1234
+    input text    ${secondPayPwdID}    qwer1234
+    sleep    40s    #等待输入验证码
+    # click element    ${btnAcodeID}
+    log   等待输入验证码
+    ${code}    获取手机验证码    ${PhoneNum}
+    input text    ${regcheckCodeID}    ${code}
+    click element    ${agreeBtnID}
+    sleep    2
+    click element    ${agreeFyID}
+    Wait Until Element Is Visible    账户页面

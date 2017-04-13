@@ -1,0 +1,5 @@
+*** Variables ***
+${UserNameXpath}   //input[@name='username']    #用户名
+${PassWordXpath}    //input[@name='password']    #密码
+#${LoginBtnCSS}    input.log_buttton loginSubmit    #登陆
+${LoginBtnXpath}        //input[@type='button'] 

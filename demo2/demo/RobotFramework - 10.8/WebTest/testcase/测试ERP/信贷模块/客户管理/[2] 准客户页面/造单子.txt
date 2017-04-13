@@ -1,0 +1,15 @@
+*** Settings ***
+Resource          ../../../../../resource/测试ERP/信贷模块/客户管理/[2] 准客户页面/var准客户页面.txt
+
+*** Variables ***
+# ${excel_path}    客户信息表格.xls    #批量造单子表格
+
+*** Test Cases ***
+表格批量造单子新
+    [Documentation]    通过表格，批量造单子，数据驱动，填写姓名，号码，身份证，即可.这里结束测试不做关闭浏览器操作
+    [Tags]    数据库    批量造单子
+    [Setup]    初始化
+    log    ${excel_path}    #打印表格路径
+    Run Keyword And Continue On Failure    表格批量造单子    ${excel_path}    ${sheetName}    ${NameCol}    ${PhoneCol}    ${ICCol}
+    Log    game over
+    [Teardown]    #run keywords    Close Browser    断开数据库    #run keywords | Close Browser | 断开数据库 | #Close Browser | # 关闭浏览器

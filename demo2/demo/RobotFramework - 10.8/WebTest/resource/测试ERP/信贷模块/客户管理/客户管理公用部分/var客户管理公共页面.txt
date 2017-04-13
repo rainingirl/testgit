@@ -1,0 +1,23 @@
+*** Settings ***
+Resource          ../../../../../common/keyword.txt
+Resource          ../../信贷模块公共部分/var信贷模块公共.txt
+
+*** Variables ***
+#id
+${InterestedPageTitleXpath}    //span[text()='意向客户']
+${PotentialXpath}    //a[text()='准客户']
+${SucceedXpath}    //a[text()='成功客户']
+${HandOverXpath}    //a[text()='客户交接']
+
+*** Keywords ***
+点击意向客户
+    click element    ${InterestedXpath}
+
+点击准客户
+    click element    ${PotentialXpath}
+
+点击成功客户
+    click element    ${SucceedXpath}
+
+点击客户交接
+    click element    ${HandOverXpath}

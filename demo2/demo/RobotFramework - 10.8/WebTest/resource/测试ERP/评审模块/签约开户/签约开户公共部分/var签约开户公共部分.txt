@@ -1,0 +1,61 @@
+*** Settings ***
+Resource          ../../评审公共部分/var评审模块公共.txt
+Resource          ../待处理客户页面/var待处理客户页面.txt
+Resource          ../开立账户页面/var开立账户页面.txt
+Resource          ../签约资源池/var签约资源池.txt
+
+*** Variables ***
+${KaiLiZhangHuXpath}    //a[text()='开立账户']
+${QianYueZiYuanChiXpath}    //a[text()='签约资源池']    #开始进件
+${DelXpath}       //a[text()='待处理客户']    #删除
+${QianYueKaiHu_DaiChuLikehuXpath}    //*[@id="leftTemplateHtml"]//a[contains(@refpage,'reviewStatus=9') and text()='待处理客户']    #定位到签约开户-待处理客户
+
+*** Keywords ***
+签约开户一条龙
+    [Arguments]    ${CustName}    ${BankNum}
+    [Documentation]    [备注:工薪精英贷4.2-24期]查找需要查看的客户,点击查看,选择通过.参数:用户名.
+    ...    初始页面:评审模块-
+    评审模块查询姓名    ${CustName}
+    sleep    2
+    选择指定客户开户    ${CustName}    #开始填写开户信息
+    sleep    2
+    客户开户    ${BankNum}
+    Wait Until Element Is Enabled    //span[text()='开户']    300    #回到开立账户页面
+    sleep    2
+    点击开立账户    #刷新当前页面,不刷有问题
+    sleep    2
+    评审模块查询姓名    ${CustName}
+    sleep    2
+    选择指定客户进入签约    ${CustName}    #开始填写开户信息
+    sleep    2
+    点击确定
+    sleep    2
+    点击签约资源池
+    sleep    2
+    评审模块查询姓名    ${CustName}
+    sleep    2
+    领取指定签约    ${CustName}
+    sleep    2
+    点击确定
+    sleep    2
+    点击待处理客户_签约开户
+    sleep    2
+    上传合同一条龙    ${CustName}
+    sleep    2
+    指定客户点击查看    ${CustName}
+    sleep    2
+    点击开户通过
+    sleep    2
+    点击开户提交
+    sleep    2
+    点击确定    #仍然在待处理客户页面
+    sleep    2
+
+点击开立账户
+    click element    ${KaiLiZhangHuXpath}
+
+点击签约资源池
+    click element    ${QianYueZiYuanChiXpath}
+
+点击待处理客户_签约开户
+    click element    ${QianYueKaiHu_DaiChuLikehuXpath}

@@ -1,0 +1,8 @@
+*** Settings ***
+
+*** Variables ***
+# ${FollowUpXpath}    //a[text()='跟进']    #跟进
+# ${StartXpath}    //a[text()='开始进件']    #开始进件
+${LingQuXpath}    //a[text()='领取']    # 领取按钮
+
+*** Keywords ***

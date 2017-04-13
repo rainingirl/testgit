@@ -1,0 +1,19 @@
+*** Settings ***
+Resource          ../../测试ERP/ERP数据库模块/测试ERP数据库关键字.txt
+Resource          ../弹出框/Dialog.txt
+Resource          ../富友账户/var富友验证页面.txt
+Resource          登陆页面元素.txt
+
+*** Keywords ***
+登陆到fyConfirm页面
+    [Documentation]    注册并且验证
+    open browser    http://116.236.220.210:8085/zzlcf/fy/fyConfirm    browser=chrome
+    Maximize Browser Window
+    Wait Until Element Is Visible    ${UserNameXpath}    ${TimeOut}
+    input text    ${UserNameXpath}    18811110008
+    input text    ${PassWordXpath}    qwe123
+    Click Element    ${LoginBtnXpath}
+    Wait Until Element Is Visible    //a[text()='立即认证']    ${TimeOut}
+    Click Element    //a[text()='立即认证']
+    Wait Until Element Is Visible    ${fyConfirmFormID}    ${TimeOut}
+    填写富友账户开户申请信息    320723198001212008    18811110008

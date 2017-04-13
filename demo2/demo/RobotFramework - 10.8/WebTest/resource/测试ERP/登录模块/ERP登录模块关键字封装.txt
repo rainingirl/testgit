@@ -1,0 +1,37 @@
+*** Settings ***
+Documentation     ERP登录关键字封装
+Resource          ../../../common/keyword.txt
+Resource          var登录页面.txt
+Resource          ../ERP首页/varERP首页.txt
+
+*** Keywords ***
+登录ERP
+    [Documentation]    登录ERP首页，验证码随意1111
+    open browser    ${ERPLoginURL}    browser=chrome
+    Maximize Browser Window
+    Wait Until Page Contains Element    id=${selAccountID}    timeout=${timeOut}
+    Click Element    ${selAccountID}
+    Input Text    id=${loginUserNameID}    ${ERPLoginUserName}
+    Input Text    id=${loginPasswordID}    ${ERPLoginPassword}
+    Input Text    id=${loginAuthCodeID}    ${ERPLoginCodeStr}
+    Click Element    id=${loginBtnID}    #sleep    ${NormalSleep}    #${flag}=    If Page Contain Elemet    ${role_choseID}
+    ...    # DEBUG    #Run Keyword If    # ${flag}    run keywords    Click Element    ${selSuAdminXpath}
+    ...    # AND    click element    # ${selXpath}
+    #Wait Until Page Contains Element    ${companyMessageXpath}    ${TimeOut}
+    Wait Until Element Is Visible    ${xinDaiXpath}    60
+
+登出ERP
+    [Documentation]    在首页，点击设置，登出
+    #Click Element    xpath=${settingXpath}
+    Mouse Over    xpath=${settingXpath}
+    sleep    ${ShortSleep}
+    Click Element    xpath=${logOutXpath}
+    Wait Until Page Contains Element    id=${selAccountID}    timeout=${TimeOut}
+
+loginERPAuthCode
+    [Arguments]    ${code}
+    [Documentation]    验证码作为参数
+
+getAuthCode
+    [Arguments]    ${imagePath}    # 图片地址
+    [Documentation]    获取验证码截图

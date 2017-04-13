@@ -1,0 +1,10 @@
+*** Settings ***
+Resource          ../../意向客户列表页面/var意向客户列表页面.txt
+
+*** Variables ***
+#id
+#信息不完整提示
+#xpath
+${followTimeID}    followTime    #跟进日期
+${followFormID}    followForm    #跟进下拉框
+${followContentID}    followContent    #跟进内容

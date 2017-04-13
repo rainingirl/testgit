@@ -1,0 +1,15 @@
+﻿*** Settings ***
+Documentation     暂时还没有用，要放到公共部分去
+
+
+*** Variables ***
+#id
+${calendarBoxID}    laydate_box    #整个日历ID
+${layui-layer1TitleXpath}    //div[text()='信息']    #上一年
+${layui-layer1TitleXpath}    //div[text()='信息']    #下一年
+${layui-layer1TitleXpath}    //div[text()='信息']    #上一月
+${layui-layer1TitleXpath}    //div[text()='信息']    #下一月
+${layui-layer1TitleXpath}    laydate_y    #年
+${layui-layer1TitleXpath}    laydate_m    #月
+${layui-layer1TitleXpath}    //div[text()='信息']    #上一月
+${layui-layer1TitleXpath}    //div[text()='信息']    #下一月

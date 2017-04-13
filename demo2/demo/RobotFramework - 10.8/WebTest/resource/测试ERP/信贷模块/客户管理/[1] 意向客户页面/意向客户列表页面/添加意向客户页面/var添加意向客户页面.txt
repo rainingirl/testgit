@@ -1,0 +1,60 @@
+*** Settings ***
+Resource          ../跟进页面/var跟进页面.txt
+Resource          ../意向客户列表页面/var意向客户列表页面.txt
+Resource          选择业务员页面/var选择业务员页面.txt
+Resource          ../../../../../ERP数据库模块/测试ERP数据库关键字.txt
+Resource          ../../../../../ERP公共部分/操作提示页面/var操作提示页面.txt
+
+*** Variables ***
+#Xpath
+${addCustomerTitleXpath}    //span[text()='添加意向客户']    # 添加意向客户
+#ID
+${cst_salesman_nameID}    cst_salesman_name    #业务员
+${cst_nameID}     cst_name    #客户姓名
+${cst_mobileID}    cst_mobile    #手机号
+${cst_icID}       cst_ic    #身份证
+${cst_remarkID}    cst_remark    #备注
+
+*** Keywords ***
+点击业务员
+    click element    ${cst_salesman_nameID}
+
+添加意向客户
+    [Arguments]    ${SalesManName}    ${CustName}    ${PhoneNum}    ${IDCard}=0    # 业务员|姓名|手机号|身份证（可以不填）
+    [Documentation]    前提条件：意向客户页面；结束页面：意向客户页面
+    click element    xpath=${addCustomerXpath}
+    Wait Until Page Contains Element    xpath=${addCustomerTitleXpath}    timeout=${TimeOut}    #验证是否进入添加意向客户页面
+    #选择业务员
+    click element    id=${cst_salesman_nameID}
+    sleep    ${ShortSleep}    #需要修改，不应该保留sleep
+    选择业务员    ${SalesManName}
+    input text    id=${cst_nameID}    ${CustName}
+    input text    id=${cst_mobileID}    ${PhoneNum}    # 手机号
+    run keyword if    ${IDCard}!=0    input text    id=${cst_icID}    ${IDCard}    #身份证不为空则输入身份证
+    sleep    ${ShortSleep2}    #需要修改，不应该保留sleep
+    var操作提示页面.点击保存
+    sleep    ${ShortSleep2}    #需要修改，不应该保留sleep
+    点击确定
+    sleep    ${ShortSleep}    #需要修改，不应该保留sleep
+
+确认该意向客户存在
+    [Arguments]    ${SalesManName}    ${CustName}    ${PhoneNum}    ${IDCard}=0    # 业务员|姓名|手机号|身份证（可以不填）
+    [Documentation]    确定有意向客户，查看cust_info表，验证cust_name以及cust_status 前提条件：意向客户页面；结束页面：意向客户页面
+    ${bflag}=    Run Keyword And Return Status    查询意向客户存在    ${CustName}    #判断是否在数据库中存在
+    run keyword if    not ${bflag}    run keywords    删除ERP数据库指定字段    ${CustName}
+    ...    AND    添加意向客户    ${SalesManName}    ${CustName}    ${PhoneNum}    ${IDCard}
+    ...    #如果不存在，则新建
+
+添加已存在的意向客户并验证是否提示已存在
+    [Arguments]    ${SalesManName}    ${CustName}    ${PhoneNum}    ${IDCard}=0    # 业务员|姓名|手机号|身份证（可以不填）
+    [Documentation]    验证添加的一个已存在意向客户是否提示相应详细，前提条件：意向客户页面；结束页面：意向客户页面
+    点击添加意向客户
+    点击业务员
+    等待1秒
+    选择业务员    ${SalesManName}
+    输入文本    ${cst_nameID}    ${CustName}
+    输入文本    ${cst_mobileID}    ${PhoneNum}    # 手机号
+    run keyword if    ${IDCard}!=0    输入文本    ${cst_icID}    ${IDCard}    #身份证不为空则输入身份证
+    var操作提示页面.点击保存
+    等待页面包含元素    ${PhoneOrIDExistedXpath}    ${TimeOut}    #验证是否提示手机号或者身份证已经存提示语ܨ
+    点击确定

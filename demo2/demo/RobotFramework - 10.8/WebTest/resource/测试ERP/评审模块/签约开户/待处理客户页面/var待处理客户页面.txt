@@ -1,0 +1,57 @@
+*** Settings ***
+Resource          ../../评审公共部分/var评审模块公共.txt
+
+*** Variables ***
+# ${KaiLiZhangHuXpath}    //a[text()='开立账户']
+# ${QianYueZiYuanChiXpath}    //a[text()='签约资源池']    #开始进件
+# ${DelXpath}     //a[text()='待处理客户']    #删除
+# ${QianYueKaiHu_DaiChuLikehuXpath}    //*[@id="leftTemplateHtml"]//a[contains(@refpage,'reviewStatus=9') and text()='待处理客户']    #定位到签约开户-待处理客户
+${id_file_name}    id_file.jpg    #身份证图片附件名称
+${import1}        //span[@onclick='uploadContract(2,4);']    #第一个导入按钮
+${import2}        //span[@onclick='uploadContract(3,5);']    #第一个导入按钮
+#查看页面，通过审核
+${KaiHuPassBtn}    //span[text()='通过']    #通过按钮
+${KaiHuTiJiaoBtn}    //span[@onclick="buttonOperating('2','1')"]
+# ${KaiHuTiJiaoBtn}    //span[contains(text(),'提交')]
+
+*** Keywords ***
+上传合同一条龙
+    [Arguments]    ${CustName}
+    [Documentation]    [备注:第一次审核]查找需要查看的客户,点击查看,选择通过.参数:用户名.
+    指定客户点击上传合同    ${CustName}
+    sleep    2
+    上传文件_合同
+
+指定客户点击上传合同
+    [Arguments]    ${CustName}
+    [Documentation]    筛选出客户,选择指定的客户,并且点击上传合同
+    ${index1}    Get Index In Table Column    example    8    ${CustName}    #定位行,用姓名
+    log    ${index1}
+    Click Element At Table Cell    example    ${index1}    16    #上传合同
+
+指定客户点击查看
+    [Arguments]    ${CustName}
+    [Documentation]    筛选出客户,选择指定的客户,并且点击查看
+    ${index1}    Get Index In Table Column    example    8    ${CustName}    #定位行,用姓名
+    log    ${index1}
+    Click Element At Table Cell    example    ${index1}    14    #点击查看
+
+上传文件_合同
+    click element    ${import1}
+    sleep    2
+    上传合同文件
+    sleep    2
+    click element    ${import2}
+    sleep    2
+    上传合同文件
+    sleep    2
+    关掉上传页面
+
+点击开户通过
+    click element    ${KaiHuPassBtn}
+
+点击开户提交
+    click element    ${KaiHuTiJiaoBtn}
+
+关掉上传页面
+    click element    css=span.layui-layer-setwin>a

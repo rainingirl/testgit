@@ -1,0 +1,48 @@
+*** Settings ***
+Resource          ../var开立账户页面.txt
+
+*** Variables ***
+# ${FollowUpXpath}    //a[text()='跟进']    #跟进
+# ${StartXpath}    //a[text()='开始进件']    #开始进件
+# ${DelXpath}     //a[text()='删除']    #删除
+${bankTypeID}     bankType    #结算账户list,富友金账户
+${bankNoID}       bankNo    #银行卡号填写框
+${goldProvinceID}    goldProvince    #开户行省
+${goldCityID}     goldCity    #开户行市
+${goldBankID}     goldBank    #开户银行
+${lpasswordID}    lpassword    #登陆密码
+${passwordID}     password    #提现密码
+${YiJianKaiHuXpath}    //span[text()='一键开户']
+
+*** Keywords ***
+客户开户
+    [Arguments]    ${BankNum}
+    [Documentation]    参数:银行卡号 默认密码123456
+    Select From List By Text    ${bankTypeID}    富友金账户
+    sleep    ${ShortSleep}
+    input text    ${bankNoID}    ${BankNum}    #62220201    工商银行    19位    前8位固定,
+    sleep    ${ShortSleep}
+    Select From List By Text    ${goldProvinceID}    北京市
+    sleep    ${ShortSleep}
+    Select From List By Text    ${goldCityID}    北京市
+    sleep    ${ShortSleep}
+    Select From List By Text    ${goldBankID}    中国工商银行
+    sleep    ${ShortSleep}
+    点击一键开户
+
+客户开户_BOC
+    [Arguments]    ${BankNum}
+    [Documentation]    暂时不做,做的是poc,boc需要身份证强验证
+    Select From List By Text    ${bankTypeID}    富友金账户
+    input text    ${bankNoID}    工商银行    #62220201    工商银行    19位    前8位固定,
+    sleep    ${ShortSleep}
+    Select From List By Text    ${goldProvinceID}    北京市
+    sleep    ${ShortSleep}
+    Select From List By Text    ${goldCityID}    北京市
+    sleep    ${ShortSleep}
+    Select From List By Text    ${goldBankID}    中国工商银行
+    sleep    ${ShortSleep}
+    点击一键开户
+
+点击一键开户
+    click element    ${YiJianKaiHuXpath}

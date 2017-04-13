@@ -1,0 +1,20 @@
+*** Settings ***
+Resource          ../../../../../../common/keyword.txt
+Resource          ../../../../ERP公共部分/操作提示页面/var操作提示页面.txt
+
+*** Variables ***
+${provcdID}       provcd    #产品系列
+${productNameID}    productName    #产品名称
+${proDetailID}    proDetailId    #产品期数
+
+*** Keywords ***
+选择产品
+    [Arguments]    ${provcd}    ${productName}    ${proDetail}
+    Select From List By Text    ${provcdID}    ${provcd}    #产品系列
+    sleep    ${ShortSleep}
+    Select From List By Text    ${productNameID}    ${productName}    #产品名称
+    sleep    ${ShortSleep}
+    Select From List By Text    ${proDetailID}    ${proDetail}    #产品期数
+    sleep    ${ShortSleep}
+    点击确定
+    sleep    ${ShortSleep}

@@ -1,0 +1,14 @@
+*** Settings ***
+Resource          ../../../../../../common/keyword.txt
+
+*** Variables ***
+${ID_UploadBtn_Xpath}    //*[@id="9"]    #身份证上传按钮
+${Loan_Application_Info_Btn_Xpath}    //span[@id='button1' and contains(text(),'借款申请信息')]   #借款申请信息按钮
+
+*** Keywords ***
+点击上传身份证
+    Wait Until Element Is Visible    ${ID_UploadBtn_Xpath}
+    click element    ${ID_UploadBtn_Xpath}
+
+点击借款申请信息按钮
+    click element   ${Loan_Application_Info_Btn_Xpath}

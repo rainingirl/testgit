@@ -1,0 +1,28 @@
+*** Settings ***
+Library           RequestsLibrary
+Library           Collections
+Library           String
+
+*** Test Cases ***
+gettest
+    Create Session    api    http://api.github.com
+    ${addr}    Get Request    api    /users/piaoransk
+    log    ${addr}
+    log    ${addr.content}
+    log    ${addr.status_code}
+    ${responsedata}    To Json    ${addr.content}
+    ${keys}    Get Dictionary Keys    ${responsedata}
+    ${items}    Get Dictionary Items    ${responsedata}
+    ${values}    Get Dictionary Values    ${responsedata}
+    ${str}    Get From Dictionary    ${responsedata}    id
+    Delete All Sessions
+
+posttest
+
+fetch
+    ${var}    Set Variable    x: 647, y: 1174
+    ${x}    Fetch From Left    ${var}    ,
+    ${x}    Fetch From Right    ${x}    ${SPACE}
+    ${y}    Fetch From Right    ${var}    y:${SPACE}
+    Log    ${x}
+    Log To Console    ${y}

@@ -1,0 +1,26 @@
+*** Settings ***
+Resource          ../../../信贷模块/信贷模块公共部分/var信贷模块公共.txt
+Resource          ../../../ERP公共部分/操作提示页面/var操作提示页面.txt
+Resource          ../../评审公共部分/var评审模块公共.txt
+Resource          ../../评审公共部分/客户资料页面/var客户资料页面.txt
+
+*** Variables ***
+${HeGuiJianChaXpath}    //a[text()='合规检查']
+
+*** Keywords ***
+点击合规检查
+    click element    ${HeGuiJianChaXpath}
+
+合规审核一条龙
+    [Arguments]    ${CustName}
+    [Documentation]    点击领取,并通过
+    ...    总部审核,门店面审,签约开户
+    ...    初始页面:评审页面
+    ...    结束页面:待处理客户页面
+    #登录到总部审核页面
+    点击合规检查
+    sleep    ${ShortSleep2}
+    通过电话审核    ${CustName}
+    #验证是否搜索到预期结果
+    # sleep    ${ShortSleep}    #需要修改，不应该保留sleep
+    # 点击点击已处理记录_总部审核

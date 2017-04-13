@@ -1,0 +1,79 @@
+*** Settings ***
+Documentation     10.9 ERP登录关键字封装
+Resource          ../../../common/keyword.txt
+
+*** Keywords ***
+连接ERP数据库
+    [Documentation]    链接ERP数据库
+    ...    database='erpdb', user='zzl463431', password='zhiwang.123', host='172.16.10.9', port=3306,charset='utf8'
+    #数据库关键字
+    Connect To Database Using Custom Params    pymysql    database='${DBName}', user='${DBUser}', password='${DBPass}', host='${DBHost}', port=${DBPort},charset='utf8'
+
+断开数据库
+    [Documentation]    断开数据库
+    Disconnect From Database
+
+删除ERP数据库指定字段
+    [Arguments]    ${CustName}    # 用户名
+    [Documentation]    删除ERP意向客户表crm_cust_info 指定字段,${CustName}
+    Execute SQL String    DELETE FROM crm_cust_info WHERE cust_name='${CustName}'    #10.5
+
+ERP数据库查询姓名
+    [Arguments]    ${CustName}
+    [Documentation]    查询意向客户表crm_cust_info 指定字段,参数${CustName}
+    ...    实现：
+    ...    SELECT cust_name FROM crm_cust_info WHERE cust_name=${CustName}
+    Check If Exists In Database    SELECT cust_name FROM crm_cust_info WHERE cust_name='${CustName}'    #${Cust_Del_Name}
+
+查询意向客户存在
+    [Arguments]    ${CustName}
+    Check If Exists In Database    SELECT cust_name FROM crm_cust_info WHERE cust_name='${CustName}' and cust_status=${Cust_Status_Existed}
+
+删除已有的意向客户
+    [Documentation]    保证将要添加的意向客户不在数据库中存在
+    删除ERP数据库指定字段    ${AddCustName}
+
+获取指定意向客户的删除状态
+    [Arguments]    ${cust_name}
+    ${output}    query    SELECT STATUS from crm_cust_info WHERE cust_name='${cust_name}'
+    [Return]    ${output[0][0]}
+
+检查指定意向客户的删除状态
+    [Arguments]    ${cust_name}    ${expect_status}    # 姓名|预期状态
+    [Documentation]    返回指定的客户姓名的删除状态，0/1
+    ...    是否等于预期的状态，0/1
+    ${output}    query    SELECT STATUS from crm_cust_info WHERE cust_name='${cust_name}'
+    Should Be Equal As Strings    ${output[0][0]}    ${expect_status}
+    [Return]    ${output[0][0]}
+
+更新指定客户的删除状态
+    [Arguments]    ${cust_name}
+    [Documentation]    将删除状态更新为1
+    Execute SQL String    update crm_cust_info SET STATUS=1 WHERE cust_name='${cust_name}'
+
+删除指定的跟进记录
+    [Arguments]    ${cust_name}    # 客户姓名
+    [Documentation]    删除跟进记录，根据客户姓名
+    Execute SQL String    DELETE FROM crm_followup where cust_id in (select id from crm_cust_info WHERE cust_name='${cust_name}')
+
+验证手机号是否不存在
+    [Arguments]    ${phoneNum}    #手机号
+    [Documentation]    验证crm_cust_info 表中没有有该手机号，如果存在该手机号报错
+    Check If not Exists In Database    SELECT cust_mobile from crm_cust_info WHERE cust_mobile='${phoneNum}'
+
+验证身份证是否不存在
+    [Arguments]    ${ic}    #手机号
+    [Documentation]    验证crm_cust_info 表中没有有该手机号，如果存在该手机号报错
+    Check If not Exists In Database    SELECT cust_ic from crm_cust_info WHERE cust_ic='${ic}'
+
+获取手机验证码
+    [Arguments]    ${ic}    #手机号
+    [Documentation]    查询手机验证码，参数：手机号
+    ${output}    query    select code from sys_mobile_code where mobile='${ic}';
+    log    ${output}
+    [Return]    ${output[0][0]}    # ${output[0][0]}
+
+验证银行卡号是否不存在
+    [Arguments]    ${card_number}    #银行卡号
+    [Documentation]    验证crm_cust_info 表中没有有该手机号，如果存在该银行卡号报错
+    Check If not Exists In Database    SELECT card_number from sys_bank_card WHERE card_number='${card_number}'
